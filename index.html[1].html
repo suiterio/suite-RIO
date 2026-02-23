@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RIO — The Pre-Owned Edit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Karla:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  :root { --red:#F15A50; --black:#1a1a1a; }
+  body { font-family:'Karla',sans-serif; background:#fff; color:#1a1a1a; font-weight:300; overflow-x:hidden; }
+  a { color:inherit; text-decoration:none; }
+  button { font-family:'Karla',sans-serif; cursor:pointer; }
+
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; background:#fff; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center; padding:20px 48px; gap:24px; }
+  .nav-logo-wrap { background:none; border:none; cursor:pointer; display:flex; align-items:center; }
+  .nav-logo-wrap svg { width:80px; }
+  .nav-right { display:flex; align-items:center; gap:28px; }
+  .search-wrap { display:flex; align-items:center; border-bottom:1px solid #ccc; padding-bottom:2px; gap:6px; }
+  .search-wrap input { border:none; outline:none; font-family:'Karla',sans-serif; font-size:13px; letter-spacing:.08em; width:160px; background:transparent; }
+  .search-wrap input::placeholder { color:#bbb; }
+  .nav-link { background:none; border:none; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#1a1a1a; padding:0; }
+  .nav-link:hover,.nav-link.active { color:var(--red); }
+  .nav-sell { background:var(--red); color:#fff; border:none; padding:9px 22px; font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
+  .nav-sell:hover { background:#1a1a1a; }
+
+  .page { display:none; }
+  .page.active { display:block; }
+
+  .hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:100px 48px 60px; }
+  .hero svg { width:360px; max-width:80vw; }
+  .hero-tagline { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:300; letter-spacing:.3em; text-transform:uppercase; color:#888; margin:28px 0 44px; }
+  .hero-cta { background:var(--red); color:#fff; border:none; padding:14px 48px; font-size:12px; letter-spacing:.2em; text-transform:uppercase; }
+  .hero-cta:hover { background:#1a1a1a; }
+
+  .selfie-grid { display:grid; grid-template-columns:repeat(4,1fr); margin-bottom:80px; }
+  .selfie-card { position:relative; aspect-ratio:3/4; overflow:hidden; cursor:pointer; background:#fff; }
+  .selfie-card img { width:100%; height:100%; object-fit:cover; display:block; }
+  .selfie-overlay { position:absolute; inset:0; background:rgba(241,90,80,.88); opacity:0; transition:opacity .2s; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; gap:6px; padding:20px; text-align:center; }
+  .selfie-card:hover .selfie-overlay { opacity:1; }
+  .s-title { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; letter-spacing:.1em; }
+  .s-date  { font-size:11px; letter-spacing:.15em; opacity:.85; }
+  .s-cta   { margin-top:10px; border:1px solid #fff; padding:7px 20px; font-size:11px; letter-spacing:.15em; text-transform:uppercase; }
+  .selfie-ph { width:100%; height:100%; position:relative; background:#f8f8f8; }
+  .selfie-ph .band  { position:absolute; top:50%; left:0; right:0; height:28%; background:var(--red); transform:translateY(-50%); }
+  .selfie-ph .fig   { position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:50%; height:88%; border-radius:60px 60px 0 0; background:#1a1a1a; }
+  .selfie-ph .frame { position:absolute; inset:10px; border:1.5px solid #eee; border-radius:2px; }
+  .selfie-ph .dot   { position:absolute; top:14px; right:14px; width:22px; height:22px; border-radius:50%; background:var(--red); }
+
+  .cat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:#eee; margin:0 0 80px; }
+  .cat-item { background:#fff; padding:32px 20px; text-align:center; cursor:pointer; }
+  .cat-item:hover { background:var(--red); }
+  .cat-item:hover .cat-label { color:#fff; }
+  .cat-circle { width:36px; height:36px; border-radius:50%; background:var(--red); margin:0 auto 12px; }
+  .cat-item:hover .cat-circle { background:#fff; }
+  .cat-label { font-family:'Cormorant Garamond',serif; font-size:16px; letter-spacing:.1em; }
+
+  .how { padding:80px 48px; text-align:center; border-top:1px solid #eee; }
+  .how h2 { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:300; letter-spacing:.15em; margin-bottom:48px; }
+  .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:48px; max-width:800px; margin:0 auto; }
+  .step-num   { font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:300; color:var(--red); line-height:1; margin-bottom:12px; }
+  .step-title { font-family:'Cormorant Garamond',serif; font-size:18px; margin-bottom:8px; }
+  .step-desc  { font-size:13px; color:#888; line-height:1.7; }
+
+  .sell-banner { background:var(--red); padding:80px 48px; text-align:center; color:#fff; }
+  .sell-banner h2 { font-family:'Cormorant Garamond',serif; font-size:42px; font-weight:300; letter-spacing:.1em; margin-bottom:14px; }
+  .sell-banner p { font-size:14px; letter-spacing:.1em; margin-bottom:32px; opacity:.85; }
+  .sell-banner a { border:1px solid #fff; padding:13px 44px; color:#fff; font-size:12px; letter-spacing:.2em; text-transform:uppercase; }
+  .sell-banner a:hover { background:#fff; color:var(--red); }
+
+  .page-header { text-align:center; padding:120px 48px 60px; }
+  .page-title { font-family:'Cormorant Garamond',serif; font-size:38px; font-weight:300; letter-spacing:.2em; }
+  .page-sub   { font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#aaa; margin-top:8px; }
+
+  .blog-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:#eee; margin:0 48px 80px; }
+  .blog-card { background:#fff; overflow:hidden; cursor:pointer; }
+  .blog-card-img { position:relative; aspect-ratio:3/4; overflow:hidden; }
+  .blog-card-img img { width:100%; height:100%; object-fit:cover; display:block; }
+  .blog-card-overlay { position:absolute; inset:0; background:rgba(241,90,80,.85); opacity:0; transition:opacity .2s; display:flex; align-items:center; justify-content:center; color:#fff; font-family:'Cormorant Garamond',serif; font-size:16px; letter-spacing:.1em; }
+  .blog-card:hover .blog-card-overlay { opacity:1; }
+  .blog-card-info  { padding:18px 20px 22px; }
+  .blog-card-title { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; margin-bottom:4px; }
+  .blog-card-date  { font-size:11px; color:#aaa; letter-spacing:.12em; text-transform:uppercase; }
+
+  .post-photo { width:100%; max-height:500px; object-fit:contain; display:block; margin:0 auto; }
+  .post-body  { max-width:720px; margin:0 auto; padding:60px 32px 100px; }
+  .post-back  { background:none; border:none; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#aaa; margin-bottom:32px; padding:0; }
+  .post-back:hover { color:var(--red); }
+  .post-date  { font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--red); margin-bottom:10px; }
+  .post-title { font-family:'Cormorant Garamond',serif; font-size:42px; font-weight:300; letter-spacing:.1em; line-height:1.2; margin-bottom:32px; }
+  .post-divider { width:40px; height:2px; background:var(--red); margin-bottom:32px; }
+  .post-text  { font-size:15px; line-height:1.9; color:#444; margin-bottom:60px; white-space:pre-wrap; }
+  .items-heading { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:300; letter-spacing:.15em; margin-bottom:24px; }
+  .items-list { display:flex; flex-direction:column; gap:1px; background:#eee; }
+  .item-row-pub { background:#fff; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; gap:16px; }
+  .item-name  { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:300; }
+  .item-price { font-size:12px; color:#888; margin-top:2px; }
+  .item-links { display:flex; gap:8px; flex-shrink:0; }
+  .btn-buy { background:var(--red); color:#fff; border:none; padding:8px 20px; font-size:11px; letter-spacing:.15em; text-transform:uppercase; white-space:nowrap; cursor:pointer; }
+  .btn-ext { background:none; border:1px solid #1a1a1a; color:#1a1a1a; padding:8px 20px; font-size:11px; letter-spacing:.15em; text-transform:uppercase; white-space:nowrap; }
+  .btn-buy:hover { background:#1a1a1a; }
+  .btn-ext:hover { background:#1a1a1a; color:#fff; }
+
+  .shop-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; background:#eee; margin:0 48px 80px; }
+  .shop-card { background:#fff; overflow:hidden; }
+  .shop-card-img  { aspect-ratio:3/4; overflow:hidden; }
+  .shop-card-img img { width:100%; height:100%; object-fit:cover; display:block; }
+  .shop-card-info  { padding:16px 18px 20px; }
+  .shop-card-name  { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:300; margin-bottom:4px; }
+  .shop-card-price { font-size:13px; color:#888; margin-bottom:12px; }
+  .shop-card-links { display:flex; gap:8px; flex-wrap:wrap; }
+
+  .empty { text-align:center; color:#bbb; font-family:'Cormorant Garamond',serif; font-size:20px; letter-spacing:.1em; padding:60px 0; }
+
+  .toast { position:fixed; bottom:32px; left:50%; transform:translateX(-50%); background:#1a1a1a; color:#fff; padding:12px 28px; font-size:12px; letter-spacing:.12em; text-transform:uppercase; z-index:9998; opacity:0; transition:opacity .3s; pointer-events:none; white-space:nowrap; }
+  .toast.show { opacity:1; }
+
+  footer { padding:36px 48px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid #eee; }
+  .footer-links { display:flex; gap:24px; align-items:center; }
+  .footer-link { background:none; border:none; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:#aaa; }
+  .footer-link:hover { color:var(--red); }
+  footer p { font-size:11px; color:#bbb; letter-spacing:.1em; }
+
+  .admin-wrap  { max-width:800px; margin:0 auto; padding:100px 48px 80px; }
+  .admin-hdr   { display:flex; justify-content:space-between; align-items:center; margin-bottom:48px; }
+  .admin-title { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:300; letter-spacing:.15em; }
+  .btn-new  { background:var(--red); color:#fff; border:none; padding:10px 28px; font-size:12px; letter-spacing:.15em; text-transform:uppercase; }
+  .btn-back { background:none; border:1px solid #ddd; padding:9px 24px; font-size:12px; letter-spacing:.12em; text-transform:uppercase; }
+  .plist { display:flex; flex-direction:column; gap:1px; background:#eee; }
+  .plist-item  { background:#fff; display:flex; align-items:center; gap:20px; padding:16px 20px; }
+  .plist-thumb { width:60px; height:75px; object-fit:cover; flex-shrink:0; }
+  .plist-info  { flex:1; }
+  .plist-name  { font-family:'Cormorant Garamond',serif; font-size:18px; }
+  .plist-meta  { font-size:11px; color:#aaa; letter-spacing:.12em; text-transform:uppercase; margin-top:3px; }
+  .plist-acts  { display:flex; gap:10px; }
+  .btn-edit { background:none; border:1px solid #ddd; padding:7px 16px; font-size:11px; letter-spacing:.12em; text-transform:uppercase; }
+  .btn-edit:hover { border-color:#1a1a1a; }
+  .btn-del  { background:none; border:1px solid var(--red); color:var(--red); padding:7px 16px; font-size:11px; letter-spacing:.12em; text-transform:uppercase; }
+  .f-field  { width:100%; border:none; border-bottom:1px solid #ddd; padding:10px 0; font-size:14px; outline:none; background:transparent; margin-bottom:20px; font-family:'Karla',sans-serif; font-weight:300; }
+  .f-label  { font-size:12px; letter-spacing:.15em; text-transform:uppercase; color:#aaa; margin-bottom:10px; display:block; }
+  .f-area   { width:100%; border:1px solid #eee; padding:14px 16px; font-size:14px; line-height:1.8; outline:none; resize:vertical; background:transparent; font-family:'Karla',sans-serif; font-weight:300; }
+  .irow      { background:#fafafa; padding:18px 20px; margin-bottom:8px; position:relative; }
+  .irow-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .irow .xbtn { position:absolute; top:10px; right:12px; background:none; border:none; font-size:18px; color:#ccc; line-height:1; }
+  .btn-add-item { background:none; border:1px dashed #ddd; width:100%; padding:10px 0; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#aaa; margin-bottom:28px; }
+  .btn-pub  { background:var(--red); color:#fff; border:none; padding:14px 48px; font-size:12px; letter-spacing:.2em; text-transform:uppercase; }
+  .btn-pub:disabled { background:#ccc; cursor:not-allowed; }
+  .login-wrap { min-height:100vh; display:flex; align-items:center; justify-content:center; }
+  .login-box  { width:320px; text-align:center; }
+  .login-box svg { width:140px; }
+  .login-sub  { font-family:'Cormorant Garamond',serif; font-size:22px; letter-spacing:.2em; color:#888; margin:24px 0 32px; }
+  .login-inp  { width:100%; border:none; border-bottom:1px solid #ccc; padding:10px 0; font-size:14px; letter-spacing:.1em; outline:none; margin-bottom:24px; background:transparent; font-family:'Karla',sans-serif; text-align:center; }
+  .login-err  { font-size:12px; color:var(--red); margin-bottom:12px; }
+  .btn-login  { width:100%; background:var(--red); color:#fff; border:none; padding:13px 0; font-size:12px; letter-spacing:.2em; text-transform:uppercase; }
+  .modal-bg   { position:fixed; inset:0; background:rgba(0,0,0,.4); display:flex; align-items:center; justify-content:center; z-index:9998; }
+  .modal-box  { background:#fff; padding:40px 48px; text-align:center; max-width:360px; width:90%; }
+  .modal-title { font-family:'Cormorant Garamond',serif; font-size:24px; margin-bottom:12px; }
+  .modal-sub   { font-size:13px; color:#888; margin-bottom:28px; }
+  .modal-btns  { display:flex; gap:12px; justify-content:center; }
+  .btn-cancel   { background:none; border:1px solid #ddd; padding:10px 28px; font-size:12px; letter-spacing:.12em; text-transform:uppercase; }
+  .btn-conf-del { background:var(--red); color:#fff; border:none; padding:10px 28px; font-size:12px; letter-spacing:.12em; text-transform:uppercase; }
+  .photo-prev { display:block; margin-top:12px; height:180px; object-fit:cover; border:1px solid #eee; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .spinner { display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,.4); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; vertical-align:middle; margin-right:6px; }
+
+  @media(max-width:768px) {
+    nav { padding:16px 20px; } .nav-right { gap:16px; } .search-wrap input { width:100px; }
+    .selfie-grid,.cat-grid { grid-template-columns:repeat(2,1fr); }
+    .steps { grid-template-columns:1fr; gap:32px; }
+    .blog-grid,.shop-grid { grid-template-columns:repeat(2,1fr); margin:0 20px 60px; }
+    .page-header { padding:100px 20px 40px; }
+    .admin-wrap { padding:80px 20px 60px; }
+    footer { flex-direction:column; gap:16px; text-align:center; }
+    .irow-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div id="toast" class="toast"></div>
+
+<!-- NAV -->
+<nav>
+  <button class="nav-logo-wrap" onclick="go('home')">
+    <svg viewBox="0 0 440 160" fill="none"><rect x="30" y="52" width="380" height="68" fill="#F15A50"/><line x1="80" y1="20" x2="80" y2="140" stroke="#1a1a1a" stroke-width="2"/><path d="M80 20 L130 20 Q155 20 155 50 Q155 80 130 80 L80 80" stroke="#1a1a1a" stroke-width="2" fill="none"/><line x1="130" y1="80" x2="155" y2="140" stroke="#1a1a1a" stroke-width="2"/><line x1="210" y1="20" x2="210" y2="140" stroke="#1a1a1a" stroke-width="2"/><ellipse cx="320" cy="80" rx="62" ry="65" stroke="#1a1a1a" stroke-width="2" fill="none"/></svg>
+  </button>
+  <div class="nav-right">
+    <div class="search-wrap">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="search-input" type="text" placeholder="Search pieces..." oninput="handleSearch(this.value)">
+    </div>
+    <button class="nav-link" id="nav-blog" onclick="go('blog')">Blog</button>
+    <button class="nav-link" id="nav-shop" onclick="go('shop')">Shop</button>
+    <button class="nav-sell" onclick="go('sell')">Sell</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <section class="hero">
+    <svg viewBox="0 0 440 160" fill="none"><rect x="30" y="52" width="380" height="68" fill="#F15A50"/><line x1="80" y1="20" x2="80" y2="140" stroke="#1a1a1a" stroke-width="2"/><path d="M80 20 L130 20 Q155 20 155 50 Q155 80 130 80 L80 80" stroke="#1a1a1a" stroke-width="2" fill="none"/><line x1="130" y1="80" x2="155" y2="140" stroke="#1a1a1a" stroke-width="2"/><line x1="210" y1="20" x2="210" y2="140" stroke="#1a1a1a" stroke-width="2"/><ellipse cx="320" cy="80" rx="62" ry="65" stroke="#1a1a1a" stroke-width="2" fill="none"/></svg>
+    <p class="hero-tagline">The Pre-Owned Edit.</p>
+    <button class="hero-cta" onclick="document.getElementById('selfie-grid').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+  </section>
+  <div id="selfie-grid" class="selfie-grid"></div>
+  <div class="cat-grid">
+    <div class="cat-item" onclick="handleSearch('Outerwear')"><div class="cat-circle"></div><div class="cat-label">Outerwear</div></div>
+    <div class="cat-item" onclick="handleSearch('Dresses')"><div class="cat-circle"></div><div class="cat-label">Dresses</div></div>
+    <div class="cat-item" onclick="handleSearch('Bottoms')"><div class="cat-circle"></div><div class="cat-label">Bottoms</div></div>
+    <div class="cat-item" onclick="handleSearch('Tops')"><div class="cat-circle"></div><div class="cat-label">Tops</div></div>
+    <div class="cat-item" onclick="handleSearch('Bags')"><div class="cat-circle"></div><div class="cat-label">Bags</div></div>
+    <div class="cat-item" onclick="handleSearch('Shoes')"><div class="cat-circle"></div><div class="cat-label">Shoes</div></div>
+    <div class="cat-item" onclick="handleSearch('Accessories')"><div class="cat-circle"></div><div class="cat-label">Accessories</div></div>
+    <div class="cat-item" onclick="go('shop')"><div class="cat-circle"></div><div class="cat-label">All Items</div></div>
+  </div>
+  <div class="how">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div><div class="step-num">01</div><div class="step-title">Browse</div><div class="step-desc">Scroll through mirror selfies and find your next favorite piece.</div></div>
+      <div><div class="step-num">02</div><div class="step-title">Buy</div><div class="step-desc">Click any item link, pay securely, and receive it in days.</div></div>
+      <div><div class="step-num">03</div><div class="step-title">Sell</div><div class="step-desc">DM or email to inquire about listing your own pieces.</div></div>
+    </div>
+  </div>
+  <div class="sell-banner">
+    <h2>Got clothes you don't wear?</h2>
+    <p>Turn your wardrobe into cash. Reach out to list.</p>
+    <a href="mailto:shopsuiterio@gmail.com">Get in Touch</a>
+  </div>
+</div>
+
+<!-- BLOG -->
+<div id="page-blog" class="page">
+  <div class="page-header"><div class="page-title">The Edit</div><div class="page-sub">Posts, looks &amp; finds</div></div>
+  <div id="blog-grid" class="blog-grid"></div>
+</div>
+
+<!-- POST -->
+<div id="page-post" class="page">
+  <img id="post-photo" class="post-photo" src="" alt="">
+  <div class="post-body">
+    <button class="post-back" onclick="go('blog')">← Back to The Edit</button>
+    <div id="post-date" class="post-date"></div>
+    <h1 id="post-title" class="post-title"></h1>
+    <div class="post-divider"></div>
+    <div id="post-text" class="post-text"></div>
+    <div id="post-items-wrap"></div>
+  </div>
+</div>
+
+<!-- SHOP -->
+<div id="page-shop" class="page">
+  <div class="page-header"><div class="page-title">Shop</div><div id="shop-count" class="page-sub"></div></div>
+  <div id="shop-grid" class="shop-grid"></div>
+  <div id="shop-empty" class="empty" style="display:none;padding:0 0 80px"></div>
+</div>
+
+<!-- SELL -->
+<div id="page-sell" class="page">
+  <div style="max-width:600px;margin:0 auto;padding:120px 48px 80px;text-align:center">
+    <div class="page-title">Sell With RIO</div>
+    <p style="font-size:13px;color:#888;line-height:1.8;margin:20px 0 48px">RIO is a curated space for pre-loved women's clothing. If you have pieces you'd like to list, get in touch and we'll make it happen.</p>
+    <a href="mailto:shopsuiterio@gmail.com" style="background:var(--red);color:#fff;padding:14px 48px;font-size:12px;letter-spacing:.2em;text-transform:uppercase">Email to Inquire</a>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="page-admin" class="page">
+  <div id="admin-login" class="login-wrap">
+    <div class="login-box">
+      <svg viewBox="0 0 440 160" fill="none"><rect x="30" y="52" width="380" height="68" fill="#F15A50"/><line x1="80" y1="20" x2="80" y2="140" stroke="#1a1a1a" stroke-width="2"/><path d="M80 20 L130 20 Q155 20 155 50 Q155 80 130 80 L80 80" stroke="#1a1a1a" stroke-width="2" fill="none"/><line x1="130" y1="80" x2="155" y2="140" stroke="#1a1a1a" stroke-width="2"/><line x1="210" y1="20" x2="210" y2="140" stroke="#1a1a1a" stroke-width="2"/><ellipse cx="320" cy="80" rx="62" ry="65" stroke="#1a1a1a" stroke-width="2" fill="none"/></svg>
+      <div class="login-sub">Admin</div>
+      <input id="admin-pw" class="login-inp" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')adminLogin()">
+      <div id="admin-pw-err" class="login-err" style="display:none">Incorrect password</div>
+      <button class="btn-login" onclick="adminLogin()">Enter</button>
+    </div>
+  </div>
+  <div id="admin-dash" class="admin-wrap" style="display:none">
+    <div id="admin-list-view">
+      <div class="admin-hdr">
+        <div class="admin-title">Posts</div>
+        <button class="btn-new" onclick="adminNew()">+ New Post</button>
+      </div>
+      <div id="plist" class="plist"></div>
+      <div id="no-posts" class="empty" style="display:none">No posts yet. Create your first one!</div>
+    </div>
+    <div id="admin-form-view" style="display:none">
+      <div class="admin-hdr">
+        <div class="admin-title" id="form-title">New Post</div>
+        <button class="btn-back" onclick="adminList()">← Back</button>
+      </div>
+      <input id="f-title" class="f-field" type="text" placeholder="Post title">
+      <input id="f-date"  class="f-field" type="text" placeholder="Date (e.g. June 1, 2026)">
+      <div style="margin-bottom:24px">
+        <label class="f-label">Photo *</label>
+        <input type="file" accept="image/*" onchange="handlePhoto(event)" style="font-size:13px;color:#666">
+        <img id="photo-prev" class="photo-prev" src="" alt="" style="display:none">
+      </div>
+      <div style="margin-bottom:28px">
+        <label class="f-label">Your words</label>
+        <textarea id="f-body" class="f-area" rows="7" placeholder="Write something about the day, the look, whatever feels right..."></textarea>
+      </div>
+      <label class="f-label">Tagged Clothing Items</label>
+      <div id="items-wrap"></div>
+      <button class="btn-add-item" onclick="addItem()">+ Add Item</button>
+      <button id="btn-pub" class="btn-pub" onclick="savePost()">Publish Post</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete modal -->
+<div id="del-modal" class="modal-bg" style="display:none">
+  <div class="modal-box">
+    <div class="modal-title">Delete this post?</div>
+    <div class="modal-sub">This can't be undone.</div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="document.getElementById('del-modal').style.display='none'">Cancel</button>
+      <button class="btn-conf-del" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <button class="nav-logo-wrap" onclick="go('home')">
+    <svg viewBox="0 0 440 160" fill="none" style="width:70px"><rect x="30" y="52" width="380" height="68" fill="#F15A50"/><line x1="80" y1="20" x2="80" y2="140" stroke="#1a1a1a" stroke-width="2"/><path d="M80 20 L130 20 Q155 20 155 50 Q155 80 130 80 L80 80" stroke="#1a1a1a" stroke-width="2" fill="none"/><line x1="130" y1="80" x2="155" y2="140" stroke="#1a1a1a" stroke-width="2"/><line x1="210" y1="20" x2="210" y2="140" stroke="#1a1a1a" stroke-width="2"/><ellipse cx="320" cy="80" rx="62" ry="65" stroke="#1a1a1a" stroke-width="2" fill="none"/></svg>
+  </button>
+  <div class="footer-links">
+    <button class="footer-link" onclick="go('blog')">Blog</button>
+    <button class="footer-link" onclick="go('shop')">Shop</button>
+    <button class="footer-link" style="color:#ddd" onclick="go('admin')">Admin</button>
+  </div>
+  <p>© 2026 RIO.</p>
+</footer>
+
+<script>
+// ── SUPABASE ──────────────────────────────────────────────────────
+const SB_URL = 'https://orxifjpjehtihwcmopdv.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9yeGlmanBqZWh0aWh3Y21vcGR2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1MzI1MzMsImV4cCI6MjA4NzEwODUzM30.vyolarZ87qrKK41wR89P3hDCutrIihF2P_WyXQLGAY4';
+const HDR    = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' };
+
+async function dbAll() {
+  const r = await fetch(SB_URL + '/rest/v1/posts?order=created_at.desc', { headers: HDR });
+  if (!r.ok) throw new Error('fetch failed ' + r.status);
+  return r.json();
+}
+async function dbAdd(p) {
+  const r = await fetch(SB_URL + '/rest/v1/posts', { method:'POST', headers: Object.assign({}, HDR, {'Prefer':'return=representation'}), body: JSON.stringify(p) });
+  if (!r.ok) throw new Error('insert failed ' + r.status);
+}
+async function dbEdit(id, p) {
+  const r = await fetch(SB_URL + '/rest/v1/posts?id=eq.' + id, { method:'PATCH', headers: Object.assign({}, HDR, {'Prefer':'return=representation'}), body: JSON.stringify(p) });
+  if (!r.ok) throw new Error('update failed ' + r.status);
+}
+async function dbDel(id) {
+  const r = await fetch(SB_URL + '/rest/v1/posts?id=eq.' + id, { method:'DELETE', headers: HDR });
+  if (!r.ok) throw new Error('delete failed ' + r.status);
+}
+
+// ── STATE ─────────────────────────────────────────────────────────
+const PW = 'rio2026';
+var posts = [], editId = null, delId = null, photoData = null, authed = false;
+
+// ── TOAST ─────────────────────────────────────────────────────────
+function toast(msg) {
+  var el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  setTimeout(function(){ el.classList.remove('show'); }, 2800);
+}
+
+// ── ROUTING ───────────────────────────────────────────────────────
+function go(id) {
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.nav-link').forEach(function(l){ l.classList.remove('active'); });
+  document.getElementById('page-' + id).classList.add('active');
+  var nl = document.getElementById('nav-' + id);
+  if (nl) nl.classList.add('active');
+  window.scrollTo(0, 0);
+  if (id === 'home')  drawGrid();
+  if (id === 'blog')  drawBlog();
+  if (id === 'shop')  drawShop(document.getElementById('search-input').value);
+  if (id === 'admin') drawAdmin();
+}
+
+// ── SELFIE GRID ───────────────────────────────────────────────────
+function drawGrid() {
+  var slots = posts.slice();
+  while (slots.length < 4) slots.push(null);
+  while (slots.length % 4 !== 0) slots.push(null);
+  document.getElementById('selfie-grid').innerHTML = slots.map(function(p) {
+    return p
+      ? '<div class="selfie-card" onclick="openPost(\'' + p.id + '\')">' +
+          '<img src="' + p.photo + '" alt="' + esc(p.title) + '">' +
+          '<div class="selfie-overlay">' +
+            '<div class="s-title">' + esc(p.title) + '</div>' +
+            '<div class="s-date">'  + esc(p.date)  + '</div>' +
+            '<div class="s-cta">Read Post &rarr;</div>' +
+          '</div></div>'
+      : '<div class="selfie-card"><div class="selfie-ph">' +
+          '<div class="band"></div><div class="fig"></div>' +
+          '<div class="frame"></div><div class="dot"></div>' +
+        '</div></div>';
+  }).join('');
+}
+
+// ── BLOG ──────────────────────────────────────────────────────────
+function drawBlog() {
+  var g = document.getElementById('blog-grid');
+  if (!posts.length) {
+    g.innerHTML = '<div class="empty" style="grid-column:1/-1;background:#fff;padding:60px">No posts yet — check back soon.</div>';
+    return;
+  }
+  g.innerHTML = posts.map(function(p) {
+    return '<div class="blog-card" onclick="openPost(\'' + p.id + '\')">' +
+      '<div class="blog-card-img"><img src="' + p.photo + '" alt="' + esc(p.title) + '"><div class="blog-card-overlay">Read Post &rarr;</div></div>' +
+      '<div class="blog-card-info"><div class="blog-card-title">' + esc(p.title) + '</div><div class="blog-card-date">' + esc(p.date) + '</div></div>' +
+    '</div>';
+  }).join('');
+}
+
+// ── POST ──────────────────────────────────────────────────────────
+function openPost(id) {
+  var p = null;
+  for (var i = 0; i < posts.length; i++) { if (posts[i].id === id) { p = posts[i]; break; } }
+  if (!p) return;
+  document.getElementById('post-photo').src = p.photo;
+  document.getElementById('post-date').textContent  = p.date;
+  document.getElementById('post-title').textContent = p.title;
+  document.getElementById('post-text').textContent  = p.body || '';
+  var items = (p.items || []).filter(function(i){ return i.name; });
+  document.getElementById('post-items-wrap').innerHTML = items.length
+    ? '<div class="items-heading">Pieces in this post</div><div class="items-list">' +
+        items.map(function(i) {
+          return '<div class="item-row-pub">' +
+            '<div><div class="item-name">' + esc(i.name) + '</div>' + (i.price ? '<div class="item-price">' + esc(i.price) + '</div>' : '') + '</div>' +
+            '<div class="item-links">' +
+              (i.link ? '<a href="' + esc(i.link) + '" target="_blank" class="btn-buy">Buy Now</a>' : '') +
+              (i.externalLink ? '<a href="' + esc(i.externalLink) + '" target="_blank" class="btn-ext">View Listing</a>' : '') +
+            '</div></div>';
+        }).join('') + '</div>'
+    : '';
+  go('post');
+}
+
+// ── SHOP ──────────────────────────────────────────────────────────
+function drawShop(q) {
+  var all = [];
+  posts.forEach(function(p) {
+    (p.items || []).filter(function(i){ return i.name; }).forEach(function(i) {
+      all.push(Object.assign({}, i, { postPhoto: p.photo }));
+    });
+  });
+  var fil = q ? all.filter(function(i){ return i.name.toLowerCase().indexOf(q.toLowerCase()) >= 0; }) : all;
+  document.getElementById('shop-count').textContent = fil.length + ' piece' + (fil.length !== 1 ? 's' : '') + ' available';
+  var g = document.getElementById('shop-grid'), e = document.getElementById('shop-empty');
+  if (!fil.length) {
+    g.style.display = 'none'; e.style.display = 'block';
+    e.textContent = q ? 'No results for "' + q + '"' : 'No items listed yet — check back soon.';
+    return;
+  }
+  g.style.display = 'grid'; e.style.display = 'none';
+  g.innerHTML = fil.map(function(i) {
+    return '<div class="shop-card">' +
+      '<div class="shop-card-img">' + (i.postPhoto ? '<img src="' + i.postPhoto + '" alt="' + esc(i.name) + '">' : '<div style="width:100%;height:100%;background:#f5f5f5;display:flex;align-items:center;justify-content:center"><div style="width:40px;height:40px;border-radius:50%;background:var(--red)"></div></div>') + '</div>' +
+      '<div class="shop-card-info">' +
+        '<div class="shop-card-name">' + esc(i.name) + '</div>' +
+        (i.price ? '<div class="shop-card-price">' + esc(i.price) + '</div>' : '') +
+        '<div class="shop-card-links">' +
+          (i.link ? '<a href="' + esc(i.link) + '" target="_blank" class="btn-buy">Buy Now</a>' : '') +
+          (i.externalLink ? '<a href="' + esc(i.externalLink) + '" target="_blank" class="btn-ext">View Listing</a>' : '') +
+        '</div></div></div>';
+  }).join('');
+}
+
+function handleSearch(q) {
+  document.getElementById('search-input').value = q;
+  drawShop(q); go('shop');
+}
+
+// ── ADMIN ─────────────────────────────────────────────────────────
+function drawAdmin() {
+  if (!authed) {
+    document.getElementById('admin-login').style.display = 'flex';
+    document.getElementById('admin-dash').style.display  = 'none';
+    return;
+  }
+  document.getElementById('admin-login').style.display = 'none';
+  document.getElementById('admin-dash').style.display  = 'block';
+  drawPlist(); adminList();
+}
+
+function adminLogin() {
+  if (document.getElementById('admin-pw').value === PW) {
+    authed = true;
+    document.getElementById('admin-pw-err').style.display = 'none';
+    drawAdmin();
+  } else {
+    document.getElementById('admin-pw-err').style.display = 'block';
+  }
+}
+
+function drawPlist() {
+  var el = document.getElementById('plist'), np = document.getElementById('no-posts');
+  if (!posts.length) { el.innerHTML = ''; np.style.display = 'block'; return; }
+  np.style.display = 'none';
+  el.innerHTML = posts.map(function(p) {
+    var cnt = (p.items || []).filter(function(i){ return i.name; }).length;
+    return '<div class="plist-item">' +
+      '<img class="plist-thumb" src="' + p.photo + '" alt="' + esc(p.title) + '">' +
+      '<div class="plist-info"><div class="plist-name">' + esc(p.title) + '</div><div class="plist-meta">' + esc(p.date) + ' &middot; ' + cnt + ' items</div></div>' +
+      '<div class="plist-acts">' +
+        '<button class="btn-edit" onclick="adminEdit(\'' + p.id + '\')">Edit</button>' +
+        '<button class="btn-del"  onclick="promptDel(\'' + p.id + '\')">Delete</button>' +
+      '</div></div>';
+  }).join('');
+}
+
+function adminList() {
+  document.getElementById('admin-list-view').style.display = 'block';
+  document.getElementById('admin-form-view').style.display = 'none';
+}
+
+function adminNew() {
+  editId = null; photoData = null;
+  document.getElementById('form-title').textContent = 'New Post';
+  document.getElementById('f-title').value = '';
+  document.getElementById('f-date').value  = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
+  document.getElementById('f-body').value  = '';
+  var pp = document.getElementById('photo-prev'); pp.style.display = 'none'; pp.src = '';
+  document.getElementById('btn-pub').innerHTML = 'Publish Post';
+  drawItemRows([{ name:'', price:'', link:'', externalLink:'' }]);
+  document.getElementById('admin-list-view').style.display = 'none';
+  document.getElementById('admin-form-view').style.display = 'block';
+}
+
+function adminEdit(id) {
+  var p = null;
+  for (var i = 0; i < posts.length; i++) { if (posts[i].id === id) { p = posts[i]; break; } }
+  if (!p) return;
+  editId = id; photoData = p.photo;
+  document.getElementById('form-title').textContent = 'Edit Post';
+  document.getElementById('f-title').value = p.title;
+  document.getElementById('f-date').value  = p.date;
+  document.getElementById('f-body').value  = p.body || '';
+  var pp = document.getElementById('photo-prev'); pp.src = p.photo; pp.style.display = 'block';
+  document.getElementById('btn-pub').innerHTML = 'Save Changes';
+  drawItemRows(p.items && p.items.length ? p.items : [{ name:'', price:'', link:'', externalLink:'' }]);
+  document.getElementById('admin-list-view').style.display = 'none';
+  document.getElementById('admin-form-view').style.display = 'block';
+}
+
+function drawItemRows(items) {
+  var c = document.getElementById('items-wrap'); c.innerHTML = '';
+  items.forEach(function(item, idx) {
+    var d = document.createElement('div'); d.className = 'irow';
+    d.innerHTML =
+      '<div class="irow-grid">' +
+        '<input class="f-field" type="text" placeholder="Item name"                          value="' + esc(item.name||'') + '">' +
+        '<input class="f-field" type="text" placeholder="Price (e.g. $38)"                  value="' + esc(item.price||'') + '">' +
+        '<input class="f-field" type="text" placeholder="Buy link (your site / Depop etc.)" value="' + esc(item.link||'') + '">' +
+        '<input class="f-field" type="text" placeholder="Second link (optional)"            value="' + esc(item.externalLink||'') + '">' +
+      '</div>' + (items.length > 1 ? '<button class="xbtn" onclick="this.closest(\'.irow\').remove()">×</button>' : '');
+    c.appendChild(d);
+  });
+}
+
+function addItem() {
+  var d = document.createElement('div'); d.className = 'irow';
+  d.innerHTML =
+    '<div class="irow-grid">' +
+      '<input class="f-field" type="text" placeholder="Item name">' +
+      '<input class="f-field" type="text" placeholder="Price (e.g. $38)">' +
+      '<input class="f-field" type="text" placeholder="Buy link (your site / Depop etc.)">' +
+      '<input class="f-field" type="text" placeholder="Second link (optional)">' +
+    '</div><button class="xbtn" onclick="this.closest(\'.irow\').remove()">×</button>';
+  document.getElementById('items-wrap').appendChild(d);
+}
+
+function handlePhoto(e) {
+  var f = e.target.files[0]; if (!f) return;
+  var r = new FileReader();
+  r.onload = function(ev) {
+    photoData = ev.target.result;
+    var pp = document.getElementById('photo-prev'); pp.src = photoData; pp.style.display = 'block';
+  };
+  r.readAsDataURL(f);
+}
+
+function getItems() {
+  return Array.from(document.querySelectorAll('#items-wrap .irow')).map(function(row) {
+    var inp = row.querySelectorAll('input');
+    return { name: inp[0].value.trim(), price: inp[1].value.trim(), link: inp[2].value.trim(), externalLink: inp[3].value.trim() };
+  });
+}
+
+function savePost() {
+  var title = document.getElementById('f-title').value.trim();
+  var date  = document.getElementById('f-date').value.trim();
+  var body  = document.getElementById('f-body').value.trim();
+  if (!title || !photoData) { toast('Please add a title and photo.'); return; }
+  var items = getItems().filter(function(i){ return i.name; });
+  var btn = document.getElementById('btn-pub');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Saving...';
+  var payload = { title: title, date: date, body: body, photo: photoData, items: items };
+  var promise = editId ? dbEdit(editId, payload) : dbAdd(Object.assign({ id: Date.now().toString() }, payload));
+  promise.then(function() {
+    return dbAll();
+  }).then(function(data) {
+    posts = data;
+    drawPlist(); adminList();
+    toast(editId ? 'Post updated ✓' : 'Post published ✓');
+    btn.disabled = false;
+    btn.innerHTML = editId ? 'Save Changes' : 'Publish Post';
+  }).catch(function(err) {
+    toast('Error saving — check connection.');
+    console.error(err);
+    btn.disabled = false;
+    btn.innerHTML = editId ? 'Save Changes' : 'Publish Post';
+  });
+}
+
+function promptDel(id) {
+  delId = id;
+  document.getElementById('del-modal').style.display = 'flex';
+}
+
+function confirmDelete() {
+  document.getElementById('del-modal').style.display = 'none';
+  dbDel(delId).then(function() {
+    return dbAll();
+  }).then(function(data) {
+    posts = data; drawPlist(); toast('Post deleted');
+  }).catch(function(err) {
+    toast('Error deleting post.'); console.error(err);
+  });
+  delId = null;
+}
+
+// ── UTIL ──────────────────────────────────────────────────────────
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── BOOT — always shows the page, database loads in background ────
+dbAll().then(function(data) {
+  posts = data;
+  drawGrid();
+}).catch(function(err) {
+  console.error('Supabase load error:', err);
+  // site still works, just no posts yet
+}).finally(function() {
+  drawGrid(); // always render, even if empty
+});
+</script>
+</body>
+</html>
