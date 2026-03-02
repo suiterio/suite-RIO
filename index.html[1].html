@@ -56,19 +56,6 @@
   .cat-item:hover .cat-circle { background:#fff; }
   .cat-label { font-family:'Cormorant Garamond',serif; font-size:16px; letter-spacing:.1em; }
 
-  .how { padding:80px 48px; text-align:center; border-top:1px solid #eee; }
-  .how h2 { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:300; letter-spacing:.15em; margin-bottom:48px; }
-  .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:48px; max-width:800px; margin:0 auto; }
-  .step-num   { font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:300; color:var(--red); line-height:1; margin-bottom:12px; }
-  .step-title { font-family:'Cormorant Garamond',serif; font-size:18px; margin-bottom:8px; }
-  .step-desc  { font-size:13px; color:#888; line-height:1.7; }
-
-  .sell-banner { background:var(--red); padding:80px 48px; text-align:center; color:#fff; }
-  .sell-banner h2 { font-family:'Cormorant Garamond',serif; font-size:42px; font-weight:300; letter-spacing:.1em; margin-bottom:14px; }
-  .sell-banner p { font-size:14px; letter-spacing:.1em; margin-bottom:32px; opacity:.85; }
-  .sell-banner a { border:1px solid #fff; padding:13px 44px; color:#fff; font-size:12px; letter-spacing:.2em; text-transform:uppercase; }
-  .sell-banner a:hover { background:#fff; color:var(--red); }
-
   .page-header { text-align:center; padding:120px 48px 60px; }
   .page-title { font-family:'Cormorant Garamond',serif; font-size:38px; font-weight:300; letter-spacing:.2em; }
   .page-sub   { font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#aaa; margin-top:8px; }
@@ -83,6 +70,7 @@
   .blog-card-title { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; margin-bottom:4px; }
   .blog-card-date  { font-size:11px; color:#aaa; letter-spacing:.12em; text-transform:uppercase; }
 
+  /* ── POST ── */
   .post-photo { width:100%; max-height:500px; object-fit:contain; display:block; margin:0 auto; }
   .post-body  { max-width:720px; margin:0 auto; padding:60px 32px 100px; }
   .post-back  { background:none; border:none; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#aaa; margin-bottom:32px; padding:0; }
@@ -90,17 +78,37 @@
   .post-date  { font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--red); margin-bottom:10px; }
   .post-title { font-family:'Cormorant Garamond',serif; font-size:42px; font-weight:300; letter-spacing:.1em; line-height:1.2; margin-bottom:32px; }
   .post-divider { width:40px; height:2px; background:var(--red); margin-bottom:32px; }
-  .post-text  { font-size:15px; line-height:1.9; color:#444; margin-bottom:60px; white-space:pre-wrap; }
+  .post-text  { font-size:15px; line-height:1.9; color:#444; margin-bottom:48px; white-space:pre-wrap; }
+
+  /* Pinterest share button */
+  .post-share { margin-bottom:40px; }
+  .btn-pinterest { display:inline-flex; align-items:center; gap:7px; background:#E60023; color:#fff; border:none; padding:9px 20px; font-size:11px; letter-spacing:.13em; text-transform:uppercase; cursor:pointer; font-family:'Karla',sans-serif; text-decoration:none; }
+  .btn-pinterest:hover { background:#ad081b; }
+
+  /* Body photos — full width stacked */
+  .post-body-photos { display:flex; flex-direction:column; gap:16px; margin-bottom:48px; }
+  .post-body-photos img { width:100%; display:block; }
+
+  /* Clothing items */
   .items-heading { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:300; letter-spacing:.15em; margin-bottom:24px; }
   .items-list { display:flex; flex-direction:column; gap:1px; background:#eee; }
   .item-row-pub { background:#fff; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; gap:16px; }
   .item-name  { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:300; }
   .item-price { font-size:12px; color:#888; margin-top:2px; }
-  .item-links { display:flex; gap:8px; flex-shrink:0; }
+  .item-links { display:flex; gap:8px; flex-shrink:0; flex-wrap:wrap; }
   .btn-buy { background:var(--red); color:#fff; border:none; padding:8px 20px; font-size:11px; letter-spacing:.15em; text-transform:uppercase; white-space:nowrap; cursor:pointer; }
   .btn-ext { background:none; border:1px solid #1a1a1a; color:#1a1a1a; padding:8px 20px; font-size:11px; letter-spacing:.15em; text-transform:uppercase; white-space:nowrap; }
+  .btn-amz { background:#FF9900; color:#fff; border:none; padding:8px 20px; font-size:11px; letter-spacing:.15em; text-transform:uppercase; white-space:nowrap; cursor:pointer; text-decoration:none; display:inline-block; }
   .btn-buy:hover { background:#1a1a1a; }
   .btn-ext:hover { background:#1a1a1a; color:#fff; }
+  .btn-amz:hover { background:#e68a00; }
+
+  /* Amazon post-level banner */
+  .amazon-post-banner { border:1px solid #eee; padding:22px 24px; margin-top:48px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .amazon-banner-text { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; }
+  .amazon-banner-sub  { font-size:11px; color:#aaa; letter-spacing:.08em; margin-top:4px; }
+  .btn-amazon { display:inline-flex; align-items:center; gap:8px; background:#FF9900; color:#fff; border:none; padding:11px 24px; font-size:11px; letter-spacing:.13em; text-transform:uppercase; cursor:pointer; font-family:'Karla',sans-serif; text-decoration:none; white-space:nowrap; }
+  .btn-amazon:hover { background:#e68a00; }
 
   .shop-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; background:#eee; margin:0 48px 80px; }
   .shop-card { background:#fff; overflow:hidden; }
@@ -125,6 +133,7 @@
   .footer-social a:hover { color:var(--red); }
   footer p { font-size:11px; color:#bbb; letter-spacing:.1em; }
 
+  /* ── ADMIN ── */
   .admin-wrap  { max-width:800px; margin:0 auto; padding:100px 48px 80px; }
   .admin-hdr   { display:flex; justify-content:space-between; align-items:center; margin-bottom:48px; }
   .admin-title { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:300; letter-spacing:.15em; }
@@ -164,18 +173,25 @@
   .btn-cancel   { background:none; border:1px solid #ddd; padding:10px 28px; font-size:12px; letter-spacing:.12em; text-transform:uppercase; }
   .btn-conf-del { background:var(--red); color:#fff; border:none; padding:10px 28px; font-size:12px; letter-spacing:.12em; text-transform:uppercase; }
   .photo-prev { display:block; margin-top:12px; height:180px; object-fit:cover; border:1px solid #eee; }
+
+  /* Body photos admin preview */
+  .body-photos-prev { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .body-photo-wrap { position:relative; display:inline-block; }
+  .body-photo-wrap img { height:80px; width:auto; object-fit:cover; border:1px solid #eee; display:block; }
+  .rm-photo { position:absolute; top:-6px; right:-6px; background:var(--red); color:#fff; border:none; border-radius:50%; width:18px; height:18px; font-size:11px; line-height:18px; text-align:center; cursor:pointer; padding:0; }
+
   @keyframes spin { to { transform:rotate(360deg); } }
   .spinner { display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,.4); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; vertical-align:middle; margin-right:6px; }
 
   @media(max-width:768px) {
     nav { padding:16px 20px; } .nav-right { gap:16px; } .search-wrap input { width:100px; }
     .selfie-grid,.cat-grid { grid-template-columns:repeat(2,1fr); }
-    .steps { grid-template-columns:1fr; gap:32px; }
     .blog-grid,.shop-grid { grid-template-columns:repeat(2,1fr); margin:0 20px 60px; }
     .page-header { padding:100px 20px 40px; }
     .admin-wrap { padding:80px 20px 60px; }
     footer { flex-direction:column; gap:16px; text-align:center; }
     .irow-grid { grid-template-columns:1fr; }
+    .amazon-post-banner { flex-direction:column; align-items:flex-start; }
   }
 </style>
 </head>
@@ -217,24 +233,11 @@
     <div class="cat-item" onclick="handleSearch('Accessories')"><div class="cat-circle"></div><div class="cat-label">Accessories</div></div>
     <div class="cat-item" onclick="go('shop')"><div class="cat-circle"></div><div class="cat-label">All Items</div></div>
   </div>
-  <div class="how">
-    <h2>How It Works</h2>
-    <div class="steps">
-      <div><div class="step-num">01</div><div class="step-title">Browse</div><div class="step-desc">Scroll through mirror selfies and find your next favorite piece.</div></div>
-      <div><div class="step-num">02</div><div class="step-title">Buy</div><div class="step-desc">Click any item link, pay securely, and receive it in days.</div></div>
-      <div><div class="step-num">03</div><div class="step-title">Sell</div><div class="step-desc">DM or email to inquire about listing your own pieces.</div></div>
-    </div>
-  </div>
-  <div class="sell-banner">
-    <h2>Got clothes you don't wear?</h2>
-    <p>Turn your wardrobe into cash. Reach out to list.</p>
-    <a href="mailto:shopsuiterio@gmail.com">Get in Touch</a>
-  </div>
 </div>
 
 <!-- BLOG -->
 <div id="page-blog" class="page">
-  <div class="page-header"><div class="page-title">The Edit</div></div>
+  <div class="page-header"><div class="page-title">The Edit</div><div class="page-sub">Posts, looks &amp; finds</div></div>
   <div id="blog-grid" class="blog-grid"></div>
 </div>
 
@@ -246,8 +249,16 @@
     <div id="post-date" class="post-date"></div>
     <h1 id="post-title" class="post-title"></h1>
     <div class="post-divider"></div>
+    <div class="post-share">
+      <a id="post-pin-btn" href="#" target="_blank" class="btn-pinterest">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.236 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.181-.78 1.172-4.97 1.172-4.97s-.299-.598-.299-1.482c0-1.388.806-2.428 1.808-2.428.853 0 1.267.641 1.267 1.408 0 .858-.546 2.141-.828 3.329-.236.995.499 1.806 1.476 1.806 1.772 0 3.137-1.868 3.137-4.561 0-2.386-1.716-4.052-4.165-4.052-2.837 0-4.5 2.128-4.5 4.327 0 .856.33 1.773.741 2.276a.3.3 0 0 1 .069.282c-.076.312-.244.995-.277 1.134-.044.183-.145.222-.334.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.967-.527-2.292-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+        Pin This
+      </a>
+    </div>
     <div id="post-text" class="post-text"></div>
+    <div id="post-body-photos" class="post-body-photos"></div>
     <div id="post-items-wrap"></div>
+    <div id="post-amazon-wrap"></div>
   </div>
 </div>
 
@@ -292,17 +303,32 @@
         <div class="admin-title" id="form-title">New Post</div>
         <button class="btn-back" onclick="adminList()">← Back</button>
       </div>
+
       <input id="f-title" class="f-field" type="text" placeholder="Post title">
       <input id="f-date"  class="f-field" type="text" placeholder="Date (e.g. June 1, 2026)">
+
       <div style="margin-bottom:24px">
-        <label class="f-label">Photo *</label>
+        <label class="f-label">Cover Photo * <span style="font-size:11px;color:#ccc;text-transform:none;letter-spacing:0;font-weight:300">(shown on blog grid &amp; home page)</span></label>
         <input type="file" accept="image/*" onchange="handlePhoto(event)" style="font-size:13px;color:#666">
         <img id="photo-prev" class="photo-prev" src="" alt="" style="display:none">
       </div>
+
+      <div style="margin-bottom:28px">
+        <label class="f-label">Additional Body Photos <span style="font-size:11px;color:#ccc;text-transform:none;letter-spacing:0;font-weight:300">(appear inside the post only, stacked after your text)</span></label>
+        <input type="file" accept="image/*" multiple onchange="handleBodyPhotos(event)" style="font-size:13px;color:#666">
+        <div id="body-photos-prev" class="body-photos-prev"></div>
+      </div>
+
       <div style="margin-bottom:28px">
         <label class="f-label">Your words</label>
         <textarea id="f-body" class="f-area" rows="7" placeholder="Write something about the day, the look, whatever feels right..."></textarea>
       </div>
+
+      <div style="margin-bottom:32px">
+        <label class="f-label">Amazon Affiliate Link — Post Level <span style="font-size:11px;color:#ccc;text-transform:none;letter-spacing:0;font-weight:300">(shows as a banner at the bottom of this post)</span></label>
+        <input id="f-amazon" class="f-field" type="text" placeholder="https://amzn.to/your-storefront-or-list">
+      </div>
+
       <label class="f-label">Tagged Clothing Items</label>
       <div id="items-wrap"></div>
       <button class="btn-add-item" onclick="addItem()">+ Add Item</button>
@@ -348,7 +374,7 @@
     </a>
     <!-- Pinterest -->
     <a href="https://pin.it/4DeB5THOE" target="_blank" aria-label="Pinterest">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2C6.477 2 2 6.477 2 12c0 4.236 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.181-.78 1.172-4.97 1.172-4.97s-.299-.598-.299-1.482c0-1.388.806-2.428 1.808-2.428.853 0 1.267.641 1.267 1.408 0 .858-.546 2.141-.828 3.329-.236.995.499 1.806 1.476 1.806 1.772 0 3.137-1.868 3.137-4.561 0-2.386-1.716-4.052-4.165-4.052-2.837 0-4.5 2.128-4.5 4.327 0 .856.33 1.773.741 2.276a.3.3 0 0 1 .069.282c-.076.312-.244.995-.277 1.134-.044.183-.145.222-.334.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.967-.527-2.292-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
       </svg>
     </a>
@@ -382,7 +408,7 @@ async function dbDel(id) {
 
 // ── STATE ─────────────────────────────────────────────────────────
 const PW = 'rio2026';
-var posts = [], editId = null, delId = null, photoData = null, authed = false;
+var posts = [], editId = null, delId = null, photoData = null, bodyPhotosData = [], authed = false;
 
 // ── TOAST ─────────────────────────────────────────────────────────
 function toast(msg) {
@@ -446,22 +472,52 @@ function openPost(id) {
   var p = null;
   for (var i = 0; i < posts.length; i++) { if (posts[i].id === id) { p = posts[i]; break; } }
   if (!p) return;
-  document.getElementById('post-photo').src = p.photo;
+
+  document.getElementById('post-photo').src        = p.photo;
   document.getElementById('post-date').textContent  = p.date;
   document.getElementById('post-title').textContent = p.title;
   document.getElementById('post-text').textContent  = p.body || '';
+
+  // Pinterest Pin It — pins the cover photo with title as description
+  var pinUrl = 'https://pinterest.com/pin/create/button/?url=' +
+    encodeURIComponent(window.location.href) +
+    '&media=' + encodeURIComponent(p.photo) +
+    '&description=' + encodeURIComponent(p.title + ' — via RIO');
+  document.getElementById('post-pin-btn').href = pinUrl;
+
+  // Body photos — full-width stacked after text, not on home/blog grid
+  var bpWrap = document.getElementById('post-body-photos');
+  bpWrap.innerHTML = (p.bodyPhotos || []).map(function(src) {
+    return '<img src="' + src + '" alt="">';
+  }).join('');
+
+  // Clothing items with optional per-item Amazon link
   var items = (p.items || []).filter(function(i){ return i.name; });
   document.getElementById('post-items-wrap').innerHTML = items.length
     ? '<div class="items-heading">Pieces in this post</div><div class="items-list">' +
         items.map(function(i) {
           return '<div class="item-row-pub">' +
-            '<div><div class="item-name">' + esc(i.name) + '</div>' + (i.price ? '<div class="item-price">' + esc(i.price) + '</div>' : '') + '</div>' +
+            '<div><div class="item-name">' + esc(i.name) + '</div>' +
+            (i.price ? '<div class="item-price">' + esc(i.price) + '</div>' : '') + '</div>' +
             '<div class="item-links">' +
-              (i.link ? '<a href="' + esc(i.link) + '" target="_blank" class="btn-buy">Buy Now</a>' : '') +
-              (i.externalLink ? '<a href="' + esc(i.externalLink) + '" target="_blank" class="btn-ext">View Listing</a>' : '') +
+              (i.link        ? '<a href="' + esc(i.link)        + '" target="_blank" class="btn-buy">Buy Now</a>'      : '') +
+              (i.externalLink? '<a href="' + esc(i.externalLink) + '" target="_blank" class="btn-ext">View Listing</a>' : '') +
+              (i.amazonLink  ? '<a href="' + esc(i.amazonLink)   + '" target="_blank" class="btn-amz">Shop Amazon</a>'  : '') +
             '</div></div>';
         }).join('') + '</div>'
     : '';
+
+  // Amazon post-level banner at bottom
+  document.getElementById('post-amazon-wrap').innerHTML = p.amazonLink
+    ? '<div class="amazon-post-banner">' +
+        '<div><div class="amazon-banner-text">Shop my Amazon picks</div>' +
+        '<div class="amazon-banner-sub">Affiliate link — I may earn a small commission</div></div>' +
+        '<a href="' + esc(p.amazonLink) + '" target="_blank" class="btn-amazon">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13.23 10.56V10c-1.94.02-3.99.41-3.99 2.67 0 1.16.61 1.95 1.63 1.95.76 0 1.43-.47 1.86-1.22.52-.93.5-1.8.5-2.84zm1.74 4.2c-.12.1-.29.11-.42.04-.6-.5-.7-.73-1.02-1.2-1 1.01-1.7 1.32-2.99 1.32-1.52 0-2.7-.94-2.7-2.82 0-1.47.8-2.47 1.93-2.96 1-.44 2.4-.51 3.46-.63v-.24c0-.44.03-.95-.22-1.32-.22-.34-.63-.48-1-.48-.68 0-1.3.35-1.44 1.07-.03.16-.15.31-.31.32l-1.74-.19c-.15-.03-.31-.15-.27-.38C8.5 5.77 10.14 5 11.64 5c.77 0 1.77.2 2.37.79.77.72.7 1.67.7 2.71v2.46c0 .74.31 1.07.59 1.46.1.14.12.31-.01.42l-1.32 1.42zM20.16 19.54C18 21.14 14.82 22 12.1 22c-3.81 0-7.25-1.41-9.85-3.76-.2-.18-.02-.43.25-.29 2.8 1.63 6.25 2.61 9.83 2.61 2.41 0 5.07-.5 7.51-1.53.37-.16.67.24.32.51zm.92-1.04c-.28-.36-1.86-.17-2.57-.09-.2.03-.24-.16-.05-.29 1.26-.88 3.32-.63 3.56-.33.24.3-.07 2.38-1.24 3.37-.18.15-.35.07-.27-.13.26-.67.87-2.17.57-2.53z"/></svg>' +
+          'Shop on Amazon' +
+        '</a></div>'
+    : '';
+
   go('post');
 }
 
@@ -489,8 +545,9 @@ function drawShop(q) {
         '<div class="shop-card-name">' + esc(i.name) + '</div>' +
         (i.price ? '<div class="shop-card-price">' + esc(i.price) + '</div>' : '') +
         '<div class="shop-card-links">' +
-          (i.link ? '<a href="' + esc(i.link) + '" target="_blank" class="btn-buy">Buy Now</a>' : '') +
-          (i.externalLink ? '<a href="' + esc(i.externalLink) + '" target="_blank" class="btn-ext">View Listing</a>' : '') +
+          (i.link         ? '<a href="' + esc(i.link)         + '" target="_blank" class="btn-buy">Buy Now</a>'      : '') +
+          (i.externalLink ? '<a href="' + esc(i.externalLink)  + '" target="_blank" class="btn-ext">View Listing</a>' : '') +
+          (i.amazonLink   ? '<a href="' + esc(i.amazonLink)    + '" target="_blank" class="btn-amz">Amazon</a>'       : '') +
         '</div></div></div>';
   }).join('');
 }
@@ -527,10 +584,13 @@ function drawPlist() {
   if (!posts.length) { el.innerHTML = ''; np.style.display = 'block'; return; }
   np.style.display = 'none';
   el.innerHTML = posts.map(function(p) {
-    var cnt = (p.items || []).filter(function(i){ return i.name; }).length;
+    var cnt    = (p.items || []).filter(function(i){ return i.name; }).length;
+    var photos = (p.bodyPhotos || []).length;
     return '<div class="plist-item">' +
       '<img class="plist-thumb" src="' + p.photo + '" alt="' + esc(p.title) + '">' +
-      '<div class="plist-info"><div class="plist-name">' + esc(p.title) + '</div><div class="plist-meta">' + esc(p.date) + ' &middot; ' + cnt + ' items</div></div>' +
+      '<div class="plist-info"><div class="plist-name">' + esc(p.title) + '</div>' +
+      '<div class="plist-meta">' + esc(p.date) + ' &middot; ' + cnt + ' item' + (cnt!==1?'s':'') +
+      (photos ? ' &middot; ' + photos + ' extra photo' + (photos!==1?'s':'') : '') + '</div></div>' +
       '<div class="plist-acts">' +
         '<button class="btn-edit" onclick="adminEdit(\'' + p.id + '\')">Edit</button>' +
         '<button class="btn-del"  onclick="promptDel(\'' + p.id + '\')">Delete</button>' +
@@ -544,14 +604,16 @@ function adminList() {
 }
 
 function adminNew() {
-  editId = null; photoData = null;
+  editId = null; photoData = null; bodyPhotosData = [];
   document.getElementById('form-title').textContent = 'New Post';
-  document.getElementById('f-title').value = '';
-  document.getElementById('f-date').value  = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
-  document.getElementById('f-body').value  = '';
+  document.getElementById('f-title').value  = '';
+  document.getElementById('f-date').value   = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
+  document.getElementById('f-body').value   = '';
+  document.getElementById('f-amazon').value = '';
   var pp = document.getElementById('photo-prev'); pp.style.display = 'none'; pp.src = '';
+  document.getElementById('body-photos-prev').innerHTML = '';
   document.getElementById('btn-pub').innerHTML = 'Publish Post';
-  drawItemRows([{ name:'', price:'', link:'', externalLink:'' }]);
+  drawItemRows([{ name:'', price:'', category:'', link:'', externalLink:'', amazonLink:'' }]);
   document.getElementById('admin-list-view').style.display = 'none';
   document.getElementById('admin-form-view').style.display = 'block';
 }
@@ -560,23 +622,24 @@ function adminEdit(id) {
   var p = null;
   for (var i = 0; i < posts.length; i++) { if (posts[i].id === id) { p = posts[i]; break; } }
   if (!p) return;
-  editId = id; photoData = p.photo;
+  editId = id; photoData = p.photo; bodyPhotosData = (p.bodyPhotos || []).slice();
   document.getElementById('form-title').textContent = 'Edit Post';
-  document.getElementById('f-title').value = p.title;
-  document.getElementById('f-date').value  = p.date;
-  document.getElementById('f-body').value  = p.body || '';
+  document.getElementById('f-title').value  = p.title;
+  document.getElementById('f-date').value   = p.date;
+  document.getElementById('f-body').value   = p.body || '';
+  document.getElementById('f-amazon').value = p.amazonLink || '';
   var pp = document.getElementById('photo-prev'); pp.src = p.photo; pp.style.display = 'block';
+  renderBodyPhotosPrev();
   document.getElementById('btn-pub').innerHTML = 'Save Changes';
-  drawItemRows(p.items && p.items.length ? p.items : [{ name:'', price:'', link:'', externalLink:'' }]);
+  drawItemRows(p.items && p.items.length ? p.items : [{ name:'', price:'', category:'', link:'', externalLink:'', amazonLink:'' }]);
   document.getElementById('admin-list-view').style.display = 'none';
   document.getElementById('admin-form-view').style.display = 'block';
 }
 
 var CATEGORIES = ['Outerwear','Dresses','Bottoms','Tops','Bags','Shoes','Accessories'];
-
-function catOptions(selected) {
-  return '<option value="">Category</option>' + CATEGORIES.map(function(c) {
-    return '<option value="' + c + '"' + (selected === c ? ' selected' : '') + '>' + c + '</option>';
+function catOptions(sel) {
+  return '<option value="">Category</option>' + CATEGORIES.map(function(c){
+    return '<option value="' + c + '"' + (sel===c?' selected':'') + '>' + c + '</option>';
   }).join('');
 }
 
@@ -586,11 +649,12 @@ function drawItemRows(items) {
     var d = document.createElement('div'); d.className = 'irow';
     d.innerHTML =
       '<div class="irow-grid">' +
-        '<input class="f-field" type="text" placeholder="Item name"                          value="' + esc(item.name||'') + '">' +
-        '<input class="f-field" type="text" placeholder="Price (e.g. $38)"                  value="' + esc(item.price||'') + '">' +
+        '<input class="f-field" type="text" placeholder="Item name"                           value="' + esc(item.name||'')         + '">' +
+        '<input class="f-field" type="text" placeholder="Price (e.g. $38)"                   value="' + esc(item.price||'')        + '">' +
         '<select class="f-field" style="color:#666">' + catOptions(item.category||'') + '</select>' +
-        '<input class="f-field" type="text" placeholder="Buy link (your site / Depop etc.)" value="' + esc(item.link||'') + '">' +
-        '<input class="f-field" type="text" placeholder="Second link (optional)"            value="' + esc(item.externalLink||'') + '">' +
+        '<input class="f-field" type="text" placeholder="Buy link (your site / Depop etc.)"  value="' + esc(item.link||'')         + '">' +
+        '<input class="f-field" type="text" placeholder="Second link (optional)"             value="' + esc(item.externalLink||'') + '">' +
+        '<input class="f-field" type="text" placeholder="Amazon affiliate link (optional)"   value="' + esc(item.amazonLink||'')   + '">' +
       '</div>' + (items.length > 1 ? '<button class="xbtn" onclick="this.closest(\'.irow\').remove()">×</button>' : '');
     c.appendChild(d);
   });
@@ -605,6 +669,7 @@ function addItem() {
       '<select class="f-field" style="color:#666">' + catOptions('') + '</select>' +
       '<input class="f-field" type="text" placeholder="Buy link (your site / Depop etc.)">' +
       '<input class="f-field" type="text" placeholder="Second link (optional)">' +
+      '<input class="f-field" type="text" placeholder="Amazon affiliate link (optional)">' +
     '</div><button class="xbtn" onclick="this.closest(\'.irow\').remove()">×</button>';
   document.getElementById('items-wrap').appendChild(d);
 }
@@ -619,24 +684,60 @@ function handlePhoto(e) {
   r.readAsDataURL(f);
 }
 
+function handleBodyPhotos(e) {
+  var files = Array.from(e.target.files); if (!files.length) return;
+  var loaded = 0;
+  files.forEach(function(f) {
+    var r = new FileReader();
+    r.onload = function(ev) {
+      bodyPhotosData.push(ev.target.result);
+      loaded++;
+      if (loaded === files.length) renderBodyPhotosPrev();
+    };
+    r.readAsDataURL(f);
+  });
+}
+
+function renderBodyPhotosPrev() {
+  document.getElementById('body-photos-prev').innerHTML = bodyPhotosData.map(function(src, idx) {
+    return '<div class="body-photo-wrap">' +
+      '<img src="' + src + '" alt="">' +
+      '<button class="rm-photo" onclick="removeBodyPhoto(' + idx + ')">×</button>' +
+    '</div>';
+  }).join('');
+}
+
+function removeBodyPhoto(idx) {
+  bodyPhotosData.splice(idx, 1);
+  renderBodyPhotosPrev();
+}
+
 function getItems() {
   return Array.from(document.querySelectorAll('#items-wrap .irow')).map(function(row) {
     var inp = row.querySelectorAll('input');
     var sel = row.querySelector('select');
-    return { name: inp[0].value.trim(), price: inp[1].value.trim(), category: sel ? sel.value : '', link: inp[2].value.trim(), externalLink: inp[3].value.trim() };
+    return {
+      name:         inp[0].value.trim(),
+      price:        inp[1].value.trim(),
+      category:     sel ? sel.value : '',
+      link:         inp[2].value.trim(),
+      externalLink: inp[3].value.trim(),
+      amazonLink:   inp[4].value.trim()
+    };
   });
 }
 
 function savePost() {
-  var title = document.getElementById('f-title').value.trim();
-  var date  = document.getElementById('f-date').value.trim();
-  var body  = document.getElementById('f-body').value.trim();
+  var title      = document.getElementById('f-title').value.trim();
+  var date       = document.getElementById('f-date').value.trim();
+  var body       = document.getElementById('f-body').value.trim();
+  var amazonLink = document.getElementById('f-amazon').value.trim();
   if (!title || !photoData) { toast('Please add a title and photo.'); return; }
   var items = getItems().filter(function(i){ return i.name; });
   var btn = document.getElementById('btn-pub');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>Saving...';
-  var payload = { title: title, date: date, body: body, photo: photoData, items: items };
+  var payload = { title: title, date: date, body: body, photo: photoData, items: items, bodyPhotos: bodyPhotosData, amazonLink: amazonLink };
   var promise = editId ? dbEdit(editId, payload) : dbAdd(Object.assign({ id: Date.now().toString() }, payload));
   promise.then(function() {
     return dbAll();
@@ -676,7 +777,7 @@ function esc(s) {
   return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ── BOOT — always shows the page, database loads in background ────
+// ── BOOT ──────────────────────────────────────────────────────────
 dbAll().then(function(data) {
   posts = data;
   drawGrid();
