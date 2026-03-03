@@ -425,16 +425,20 @@ function toast(msg) {
 
 // ── ROUTING ───────────────────────────────────────────────────────
 function go(id) {
-  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
-  document.querySelectorAll('.nav-link').forEach(function(l){ l.classList.remove('active'); });
-  document.getElementById('page-' + id).classList.add('active');
-  var nl = document.getElementById('nav-' + id);
-  if (nl) nl.classList.add('active');
-  window.scrollTo(0, 0);
-  if (id === 'home')  drawGrid();
-  if (id === 'blog')  drawBlog();
-  if (id === 'shop')  drawShop(document.getElementById('search-input').value);
-  if (id === 'admin') drawAdmin();
+  try {
+    document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+    document.querySelectorAll('.nav-link').forEach(function(l){ l.classList.remove('active'); });
+    var pg = document.getElementById('page-' + id);
+    if (!pg) return;
+    pg.classList.add('active');
+    var nl = document.getElementById('nav-' + id);
+    if (nl) nl.classList.add('active');
+    window.scrollTo(0, 0);
+    if (id === 'home')  drawGrid();
+    if (id === 'blog')  drawBlog();
+    if (id === 'shop')  drawShop(document.getElementById('search-input').value);
+    if (id === 'admin') drawAdmin();
+  } catch(e) { console.error('go() error:', e); }
 }
 
 // ── SELFIE GRID ───────────────────────────────────────────────────
@@ -898,14 +902,16 @@ function esc(s) {
 }
 
 // ── BOOT ──────────────────────────────────────────────────────────
-dbAll().then(function(data) {
-  posts = data;
-  drawGrid();
-}).catch(function(err) {
-  console.error('Supabase load error:', err);
-}).finally(function() {
-  drawGrid();
-});
+(function() {
+  dbAll().then(function(data) {
+    posts = Array.isArray(data) ? data : [];
+    drawGrid();
+  }).catch(function(err) {
+    console.error('Supabase load error:', err);
+    posts = [];
+    drawGrid();
+  });
+})();
 </script>
 </body>
 </html>
