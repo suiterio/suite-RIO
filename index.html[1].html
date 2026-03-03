@@ -85,9 +85,10 @@
   .btn-pinterest { display:inline-flex; align-items:center; gap:7px; background:#E60023; color:#fff; border:none; padding:9px 20px; font-size:11px; letter-spacing:.13em; text-transform:uppercase; cursor:pointer; font-family:'Karla',sans-serif; text-decoration:none; }
   .btn-pinterest:hover { background:#ad081b; }
 
-  /* Body photos — full width stacked */
-  .post-body-photos { display:flex; flex-direction:column; gap:16px; margin-bottom:48px; }
-  .post-body-photos img { width:100%; display:block; }
+  /* Post content blocks — text and photos interleaved */
+  .post-content-block { margin-bottom:32px; }
+  .post-content-block img { width:100%; display:block; }
+  .post-content-block p { font-size:15px; line-height:1.9; color:#444; white-space:pre-wrap; }
 
   /* Clothing items */
   .items-heading { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:300; letter-spacing:.15em; margin-bottom:24px; }
@@ -174,11 +175,18 @@
   .btn-conf-del { background:var(--red); color:#fff; border:none; padding:10px 28px; font-size:12px; letter-spacing:.12em; text-transform:uppercase; }
   .photo-prev { display:block; margin-top:12px; height:180px; object-fit:cover; border:1px solid #eee; }
 
-  /* Body photos admin preview */
-  .body-photos-prev { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
-  .body-photo-wrap { position:relative; display:inline-block; }
-  .body-photo-wrap img { height:80px; width:auto; object-fit:cover; border:1px solid #eee; display:block; }
-  .rm-photo { position:absolute; top:-6px; right:-6px; background:var(--red); color:#fff; border:none; border-radius:50%; width:18px; height:18px; font-size:11px; line-height:18px; text-align:center; cursor:pointer; padding:0; }
+  /* Content builder blocks in admin */
+  .cblock { background:#fafafa; border:1px solid #eee; margin-bottom:8px; position:relative; display:flex; align-items:flex-start; gap:10px; padding:12px 14px; }
+  .cblock-drag { cursor:grab; color:#ccc; font-size:18px; padding:2px 4px; user-select:none; flex-shrink:0; margin-top:2px; }
+  .cblock-drag:active { cursor:grabbing; }
+  .cblock.dragging { opacity:.4; border:1px dashed var(--red); }
+  .cblock.drag-over { border-top:3px solid var(--red); }
+  .cblock-body { flex:1; min-width:0; }
+  .cblock textarea { width:100%; border:none; outline:none; font-family:'Karla',sans-serif; font-size:14px; line-height:1.8; background:transparent; resize:vertical; min-height:80px; color:#444; }
+  .cblock img { width:100%; max-height:240px; object-fit:cover; display:block; border:1px solid #eee; }
+  .cblock-type { font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:#bbb; margin-bottom:6px; }
+  .cblock-rm { position:absolute; top:8px; right:8px; background:none; border:none; font-size:16px; color:#ccc; cursor:pointer; line-height:1; padding:2px; }
+  .cblock-rm:hover { color:var(--red); }
 
   @keyframes spin { to { transform:rotate(360deg); } }
   .spinner { display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,.4); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; vertical-align:middle; margin-right:6px; }
@@ -255,8 +263,7 @@
         Pin This
       </a>
     </div>
-    <div id="post-text" class="post-text"></div>
-    <div id="post-body-photos" class="post-body-photos"></div>
+    <div id="post-content-blocks"></div>
     <div id="post-items-wrap"></div>
     <div id="post-amazon-wrap"></div>
   </div>
@@ -314,14 +321,13 @@
       </div>
 
       <div style="margin-bottom:28px">
-        <label class="f-label">Additional Body Photos <span style="font-size:11px;color:#ccc;text-transform:none;letter-spacing:0;font-weight:300">(appear inside the post only, stacked after your text)</span></label>
-        <input type="file" accept="image/*" multiple onchange="handleBodyPhotos(event)" style="font-size:13px;color:#666">
-        <div id="body-photos-prev" class="body-photos-prev"></div>
-      </div>
-
-      <div style="margin-bottom:28px">
-        <label class="f-label">Your words</label>
-        <textarea id="f-body" class="f-area" rows="7" placeholder="Write something about the day, the look, whatever feels right..."></textarea>
+        <label class="f-label">Post Content <span style="font-size:11px;color:#ccc;text-transform:none;letter-spacing:0;font-weight:300">(add text blocks and photos in any order — drag to rearrange)</span></label>
+        <div id="content-builder"></div>
+        <div style="display:flex;gap:10px;margin-top:10px">
+          <button type="button" onclick="addTextBlock()" style="flex:1;background:none;border:1px dashed #ddd;padding:10px 0;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#aaa;cursor:pointer;">+ Add Text</button>
+          <button type="button" onclick="document.getElementById('block-photo-input').click()" style="flex:1;background:none;border:1px dashed #ddd;padding:10px 0;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#aaa;cursor:pointer;">+ Add Photo</button>
+          <input type="file" id="block-photo-input" accept="image/*" style="display:none" onchange="addPhotoBlock(event)">
+        </div>
       </div>
 
       <div style="margin-bottom:32px">
@@ -407,8 +413,8 @@ async function dbDel(id) {
 }
 
 // ── STATE ─────────────────────────────────────────────────────────
-const PW = 'rio2026';
-var posts = [], editId = null, delId = null, photoData = null, bodyPhotosData = [], authed = false;
+const PW = 'ilovebananas';
+var posts = [], editId = null, delId = null, photoData = null, contentBlocks = [], authed = false;
 
 // ── TOAST ─────────────────────────────────────────────────────────
 function toast(msg) {
@@ -476,20 +482,57 @@ function openPost(id) {
   document.getElementById('post-photo').src        = p.photo;
   document.getElementById('post-date').textContent  = p.date;
   document.getElementById('post-title').textContent = p.title;
-  document.getElementById('post-text').textContent  = p.body || '';
 
-  // Pinterest Pin It — pins the cover photo with title as description
-  var pinUrl = 'https://pinterest.com/pin/create/button/?url=' +
-    encodeURIComponent(window.location.href) +
-    '&media=' + encodeURIComponent(p.photo) +
+  // Pinterest — pin the cover photo directly (no unique URL needed)
+  var pinUrl = 'https://pinterest.com/pin/create/button/?media=' +
+    encodeURIComponent(p.photo) +
     '&description=' + encodeURIComponent(p.title + ' — via RIO');
   document.getElementById('post-pin-btn').href = pinUrl;
 
-  // Body photos — full-width stacked after text, not on home/blog grid
-  var bpWrap = document.getElementById('post-body-photos');
-  bpWrap.innerHTML = (p.bodyPhotos || []).map(function(src) {
-    return '<img src="' + src + '" alt="">';
+  // Content blocks: interleaved text + photos in author-defined order.
+  // Backwards compat: old posts with body/bodyPhotos get converted on the fly.
+  var blocks = p.contentBlocks || [];
+  if (!blocks.length) {
+    if (p.body) blocks.push({ type: 'text', value: p.body });
+    (p.bodyPhotos || []).forEach(function(src){ blocks.push({ type: 'photo', value: src }); });
+  }
+  document.getElementById('post-content-blocks').innerHTML = blocks.map(function(b) {
+    return '<div class="post-content-block">' +
+      (b.type === 'photo'
+        ? '<img src="' + b.value + '" alt="">'
+        : '<p>' + esc(b.value) + '</p>') +
+    '</div>';
   }).join('');
+
+  // Clothing items
+  var items = (p.items || []).filter(function(i){ return i.name; });
+  document.getElementById('post-items-wrap').innerHTML = items.length
+    ? '<div class="items-heading">Pieces in this post</div><div class="items-list">' +
+        items.map(function(i) {
+          return '<div class="item-row-pub">' +
+            '<div><div class="item-name">' + esc(i.name) + '</div>' +
+            (i.price ? '<div class="item-price">' + esc(i.price) + '</div>' : '') + '</div>' +
+            '<div class="item-links">' +
+              (i.link        ? '<a href="' + esc(i.link)        + '" target="_blank" class="btn-buy">Buy Now</a>'      : '') +
+              (i.externalLink? '<a href="' + esc(i.externalLink) + '" target="_blank" class="btn-ext">View Listing</a>' : '') +
+              (i.amazonLink  ? '<a href="' + esc(i.amazonLink)   + '" target="_blank" class="btn-amz">Shop Amazon</a>'  : '') +
+            '</div></div>';
+        }).join('') + '</div>'
+    : '';
+
+  // Amazon post-level banner
+  document.getElementById('post-amazon-wrap').innerHTML = p.amazonLink
+    ? '<div class="amazon-post-banner">' +
+        '<div><div class="amazon-banner-text">Shop my Amazon picks</div>' +
+        '<div class="amazon-banner-sub">Affiliate link — I may earn a small commission</div></div>' +
+        '<a href="' + esc(p.amazonLink) + '" target="_blank" class="btn-amazon">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13.23 10.56V10c-1.94.02-3.99.41-3.99 2.67 0 1.16.61 1.95 1.63 1.95.76 0 1.43-.47 1.86-1.22.52-.93.5-1.8.5-2.84zm1.74 4.2c-.12.1-.29.11-.42.04-.6-.5-.7-.73-1.02-1.2-1 1.01-1.7 1.32-2.99 1.32-1.52 0-2.7-.94-2.7-2.82 0-1.47.8-2.47 1.93-2.96 1-.44 2.4-.51 3.46-.63v-.24c0-.44.03-.95-.22-1.32-.22-.34-.63-.48-1-.48-.68 0-1.3.35-1.44 1.07-.03.16-.15.31-.31.32l-1.74-.19c-.15-.03-.31-.15-.27-.38C8.5 5.77 10.14 5 11.64 5c.77 0 1.77.2 2.37.79.77.72.7 1.67.7 2.71v2.46c0 .74.31 1.07.59 1.46.1.14.12.31-.01.42l-1.32 1.42zM20.16 19.54C18 21.14 14.82 22 12.1 22c-3.81 0-7.25-1.41-9.85-3.76-.2-.18-.02-.43.25-.29 2.8 1.63 6.25 2.61 9.83 2.61 2.41 0 5.07-.5 7.51-1.53.37-.16.67.24.32.51zm.92-1.04c-.28-.36-1.86-.17-2.57-.09-.2.03-.24-.16-.05-.29 1.26-.88 3.32-.63 3.56-.33.24.3-.07 2.38-1.24 3.37-.18.15-.35.07-.27-.13.26-.67.87-2.17.57-2.53z"/></svg>' +
+          'Shop on Amazon' +
+        '</a></div>'
+    : '';
+
+  go('post');
+}
 
   // Clothing items with optional per-item Amazon link
   var items = (p.items || []).filter(function(i){ return i.name; });
@@ -585,7 +628,7 @@ function drawPlist() {
   np.style.display = 'none';
   el.innerHTML = posts.map(function(p) {
     var cnt    = (p.items || []).filter(function(i){ return i.name; }).length;
-    var photos = (p.bodyPhotos || []).length;
+    var photos = (p.contentBlocks || []).filter(function(b){ return b.type==='photo'; }).length;
     return '<div class="plist-item">' +
       '<img class="plist-thumb" src="' + p.photo + '" alt="' + esc(p.title) + '">' +
       '<div class="plist-info"><div class="plist-name">' + esc(p.title) + '</div>' +
@@ -604,15 +647,14 @@ function adminList() {
 }
 
 function adminNew() {
-  editId = null; photoData = null; bodyPhotosData = [];
+  editId = null; photoData = null; contentBlocks = [];
   document.getElementById('form-title').textContent = 'New Post';
   document.getElementById('f-title').value  = '';
   document.getElementById('f-date').value   = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
-  document.getElementById('f-body').value   = '';
   document.getElementById('f-amazon').value = '';
   var pp = document.getElementById('photo-prev'); pp.style.display = 'none'; pp.src = '';
-  document.getElementById('body-photos-prev').innerHTML = '';
   document.getElementById('btn-pub').innerHTML = 'Publish Post';
+  renderContentBuilder();
   drawItemRows([{ name:'', price:'', category:'', link:'', externalLink:'', amazonLink:'' }]);
   document.getElementById('admin-list-view').style.display = 'none';
   document.getElementById('admin-form-view').style.display = 'block';
@@ -622,15 +664,20 @@ function adminEdit(id) {
   var p = null;
   for (var i = 0; i < posts.length; i++) { if (posts[i].id === id) { p = posts[i]; break; } }
   if (!p) return;
-  editId = id; photoData = p.photo; bodyPhotosData = (p.bodyPhotos || []).slice();
+  editId = id; photoData = p.photo;
+  // Load contentBlocks, with backwards compat for old posts
+  contentBlocks = (p.contentBlocks || []).slice();
+  if (!contentBlocks.length) {
+    if (p.body) contentBlocks.push({ type: 'text', value: p.body });
+    (p.bodyPhotos || []).forEach(function(src){ contentBlocks.push({ type: 'photo', value: src }); });
+  }
   document.getElementById('form-title').textContent = 'Edit Post';
   document.getElementById('f-title').value  = p.title;
   document.getElementById('f-date').value   = p.date;
-  document.getElementById('f-body').value   = p.body || '';
   document.getElementById('f-amazon').value = p.amazonLink || '';
   var pp = document.getElementById('photo-prev'); pp.src = p.photo; pp.style.display = 'block';
-  renderBodyPhotosPrev();
   document.getElementById('btn-pub').innerHTML = 'Save Changes';
+  renderContentBuilder();
   drawItemRows(p.items && p.items.length ? p.items : [{ name:'', price:'', category:'', link:'', externalLink:'', amazonLink:'' }]);
   document.getElementById('admin-list-view').style.display = 'none';
   document.getElementById('admin-form-view').style.display = 'block';
@@ -684,32 +731,85 @@ function handlePhoto(e) {
   r.readAsDataURL(f);
 }
 
-function handleBodyPhotos(e) {
-  var files = Array.from(e.target.files); if (!files.length) return;
-  var loaded = 0;
-  files.forEach(function(f) {
-    var r = new FileReader();
-    r.onload = function(ev) {
-      bodyPhotosData.push(ev.target.result);
-      loaded++;
-      if (loaded === files.length) renderBodyPhotosPrev();
-    };
-    r.readAsDataURL(f);
+// ── CONTENT BUILDER ───────────────────────────────────────────────
+function renderContentBuilder() {
+  var c = document.getElementById('content-builder');
+  if (!contentBlocks.length) {
+    c.innerHTML = '<div style="color:#bbb;font-size:13px;padding:12px 0;">No content yet — add a text block or photo below.</div>';
+    return;
+  }
+  c.innerHTML = '';
+  contentBlocks.forEach(function(block, idx) {
+    var d = document.createElement('div');
+    d.className = 'cblock';
+    d.setAttribute('data-idx', idx);
+    d.setAttribute('draggable', 'true');
+    if (block.type === 'text') {
+      d.innerHTML =
+        '<span class="cblock-drag" title="Drag to reorder">⠿</span>' +
+        '<div class="cblock-body">' +
+          '<div class="cblock-type">Text</div>' +
+          '<textarea placeholder="Write something...">' + escRaw(block.value) + '</textarea>' +
+        '</div>' +
+        '<button class="cblock-rm" onclick="removeBlock(' + idx + ')" title="Remove">×</button>';
+    } else {
+      d.innerHTML =
+        '<span class="cblock-drag" title="Drag to reorder">⠿</span>' +
+        '<div class="cblock-body">' +
+          '<div class="cblock-type">Photo</div>' +
+          '<img src="' + block.value + '" alt="">' +
+        '</div>' +
+        '<button class="cblock-rm" onclick="removeBlock(' + idx + ')" title="Remove">×</button>';
+    }
+    // Sync textarea changes to contentBlocks in real time
+    if (block.type === 'text') {
+      var ta = d.querySelector('textarea');
+      ta.addEventListener('input', (function(i){ return function(){ contentBlocks[i].value = this.value; }; })(idx));
+    }
+    // Drag-and-drop
+    d.addEventListener('dragstart', function(e){ e.dataTransfer.setData('text/plain', idx); d.classList.add('dragging'); });
+    d.addEventListener('dragend',   function(){ d.classList.remove('dragging'); document.querySelectorAll('.cblock').forEach(function(el){ el.classList.remove('drag-over'); }); });
+    d.addEventListener('dragover',  function(e){ e.preventDefault(); d.classList.add('drag-over'); });
+    d.addEventListener('dragleave', function(){ d.classList.remove('drag-over'); });
+    d.addEventListener('drop', function(e){
+      e.preventDefault(); d.classList.remove('drag-over');
+      var from = parseInt(e.dataTransfer.getData('text/plain'));
+      var to   = parseInt(d.getAttribute('data-idx'));
+      if (from === to) return;
+      var moved = contentBlocks.splice(from, 1)[0];
+      contentBlocks.splice(to, 0, moved);
+      renderContentBuilder();
+    });
+    c.appendChild(d);
   });
 }
 
-function renderBodyPhotosPrev() {
-  document.getElementById('body-photos-prev').innerHTML = bodyPhotosData.map(function(src, idx) {
-    return '<div class="body-photo-wrap">' +
-      '<img src="' + src + '" alt="">' +
-      '<button class="rm-photo" onclick="removeBodyPhoto(' + idx + ')">×</button>' +
-    '</div>';
-  }).join('');
+function addTextBlock() {
+  contentBlocks.push({ type: 'text', value: '' });
+  renderContentBuilder();
+  // Focus the new textarea
+  var textareas = document.querySelectorAll('#content-builder .cblock textarea');
+  if (textareas.length) textareas[textareas.length - 1].focus();
 }
 
-function removeBodyPhoto(idx) {
-  bodyPhotosData.splice(idx, 1);
-  renderBodyPhotosPrev();
+function addPhotoBlock(e) {
+  var f = e.target.files[0]; if (!f) return;
+  var r = new FileReader();
+  r.onload = function(ev) {
+    contentBlocks.push({ type: 'photo', value: ev.target.result });
+    renderContentBuilder();
+  };
+  r.readAsDataURL(f);
+  e.target.value = ''; // reset so same file can be re-selected
+}
+
+function removeBlock(idx) {
+  contentBlocks.splice(idx, 1);
+  renderContentBuilder();
+}
+
+function escRaw(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
 function getItems() {
@@ -730,15 +830,35 @@ function getItems() {
 function savePost() {
   var title      = document.getElementById('f-title').value.trim();
   var date       = document.getElementById('f-date').value.trim();
-  var body       = document.getElementById('f-body').value.trim();
   var amazonLink = document.getElementById('f-amazon').value.trim();
   if (!title || !photoData) { toast('Please add a title and photo.'); return; }
+  // Sync any open textareas to contentBlocks before saving
+  document.querySelectorAll('#content-builder .cblock[data-idx]').forEach(function(d) {
+    var idx = parseInt(d.getAttribute('data-idx'));
+    var ta  = d.querySelector('textarea');
+    if (ta && contentBlocks[idx]) contentBlocks[idx].value = ta.value;
+  });
   var items = getItems().filter(function(i){ return i.name; });
   var btn = document.getElementById('btn-pub');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>Saving...';
-  var payload = { title: title, date: date, body: body, photo: photoData, items: items, bodyPhotos: bodyPhotosData, amazonLink: amazonLink };
+  var payload = { title: title, date: date, photo: photoData, items: items, contentBlocks: contentBlocks, amazonLink: amazonLink };
   var promise = editId ? dbEdit(editId, payload) : dbAdd(Object.assign({ id: Date.now().toString() }, payload));
+  promise.then(function() {
+    return dbAll();
+  }).then(function(data) {
+    posts = data;
+    drawPlist(); adminList();
+    toast(editId ? 'Post updated ✓' : 'Post published ✓');
+    btn.disabled = false;
+    btn.innerHTML = editId ? 'Save Changes' : 'Publish Post';
+  }).catch(function(err) {
+    toast('Error saving — check connection.');
+    console.error(err);
+    btn.disabled = false;
+    btn.innerHTML = editId ? 'Save Changes' : 'Publish Post';
+  });
+}
   promise.then(function() {
     return dbAll();
   }).then(function(data) {
