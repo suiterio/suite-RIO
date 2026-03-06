@@ -274,7 +274,7 @@
   <div style="max-width:600px;margin:0 auto;padding:120px 48px 80px;text-align:center">
     <div class="page-title">Sell With RIO</div>
     <p style="font-size:13px;color:#888;line-height:1.8;margin:20px 0 48px">RIO is a curated space for pre-loved women's clothing. If you have pieces you'd like to list, get in touch and we'll make it happen.</p>
-    <a href="mailto:shopsuiterio@gmail.com" style="background:var(--red);color:#fff;padding:14px 48px;font-size:12px;letter-spacing:.2em;text-transform:uppercase">Email to Inquire</a>
+    <a href="/cdn-cgi/l/email-protection#7f0c17100f0c0a160b1a0d16103f18121e1613511c1012" style="background:var(--red);color:#fff;padding:14px 48px;font-size:12px;letter-spacing:.2em;text-transform:uppercase">Email to Inquire</a>
   </div>
 </div>
 
@@ -378,27 +378,60 @@
   <p>© 2026 RIO.</p>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── SUPABASE ──────────────────────────────────────────────────────
 const SB_URL = 'https://orxifjpjehtihwcmopdv.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9yeGlmanBqZWh0aWh3Y21vcGR2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1MzI1MzMsImV4cCI6MjA4NzEwODUzM30.vyolarZ87qrKK41wR89P3hDCutrIihF2P_WyXQLGAY4';
 const HDR    = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' };
 const BUCKET = 'posts'; // ← matches the bucket name you create in Supabase Storage
 
+// ── IMAGE COMPRESSION ─────────────────────────────────────────────
+// Resizes any image to max 1600px and compresses to ~80% quality.
+// Phone camera photos go from 8-15MB down to ~300-600KB.
+function compressImage(file) {
+  return new Promise(function(resolve) {
+    var MAX_PX   = 1600;  // max width or height in pixels
+    var QUALITY  = 0.82;  // jpeg quality (0-1)
+    var reader   = new FileReader();
+    reader.onload = function(ev) {
+      var img = new Image();
+      img.onload = function() {
+        var w = img.width, h = img.height;
+        // Scale down if needed
+        if (w > MAX_PX || h > MAX_PX) {
+          if (w > h) { h = Math.round(h * MAX_PX / w); w = MAX_PX; }
+          else       { w = Math.round(w * MAX_PX / h); h = MAX_PX; }
+        }
+        var canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        canvas.toBlob(function(blob) {
+          // Give the blob a name so uploadToStorage can read the extension
+          blob.name = file.name.replace(/\.[^.]+$/, '') + '.jpg';
+          resolve(blob);
+        }, 'image/jpeg', QUALITY);
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 // ── STORAGE UPLOAD ────────────────────────────────────────────────
-// Converts a file to a public URL by uploading it to Supabase Storage.
+// Compresses then uploads a file to Supabase Storage.
 // Returns the public URL string on success.
 async function uploadToStorage(file) {
-  var ext      = file.name.split('.').pop() || 'jpg';
-  var fileName = Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
-  var path     = 'images/' + fileName;
+  // Compress first — works on File objects and Blobs
+  var compressed = await compressImage(file);
+  var fileName   = Date.now() + '-' + Math.random().toString(36).slice(2) + '.jpg';
+  var path       = 'images/' + fileName;
 
   var uploadRes = await fetch(
     SB_URL + '/storage/v1/object/' + BUCKET + '/' + path,
     {
       method:  'POST',
-      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': file.type },
-      body:    file
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'image/jpeg' },
+      body:    compressed
     }
   );
   if (!uploadRes.ok) {
@@ -704,23 +737,24 @@ function addItem() {
   document.getElementById('items-wrap').appendChild(d);
 }
 
-// ── PHOTO HANDLERS (now upload to Storage, not base64) ────────────
+// ── PHOTO HANDLERS ────────────────────────────────────────────────
 function handlePhoto(e) {
   var f = e.target.files[0]; if (!f) return;
-  // Store the File object — actual upload happens at save time
-  photoData = f;
-  // Show a local preview immediately using a blob URL
   var pp = document.getElementById('photo-prev');
   pp.src = URL.createObjectURL(f);
   pp.style.display = 'block';
+  compressImage(f).then(function(compressed) { photoData = compressed; });
 }
 
 function addPhotoBlock(e) {
   var f = e.target.files[0]; if (!f) return;
-  // Store the File object in contentBlocks; upload happens at save time
   var localUrl = URL.createObjectURL(f);
+  var idx = contentBlocks.length;
   contentBlocks.push({ type: 'photo', value: localUrl, _file: f });
   renderContentBuilder();
+  compressImage(f).then(function(compressed) {
+    if (contentBlocks[idx]) contentBlocks[idx]._file = compressed;
+  });
   e.target.value = '';
 }
 
@@ -892,13 +926,4 @@ function esc(s) {
 (function() {
   dbAll().then(function(data) {
     posts = Array.isArray(data) ? data : [];
-    drawGrid();
-  }).catch(function(err) {
-    console.error('Supabase load error:', err);
-    posts = [];
-    drawGrid();
-  });
-})();
-</script>
-</body>
-</html>
+    draw
