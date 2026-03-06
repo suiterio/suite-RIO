@@ -70,7 +70,6 @@
   .blog-card-title { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; margin-bottom:4px; }
   .blog-card-date  { font-size:11px; color:#aaa; letter-spacing:.12em; text-transform:uppercase; }
 
-  /* ── POST ── */
   .post-photo { width:100%; max-height:500px; object-fit:contain; display:block; margin:0 auto; }
   .post-body  { max-width:720px; margin:0 auto; padding:60px 32px 100px; }
   .post-back  { background:none; border:none; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#aaa; margin-bottom:32px; padding:0; }
@@ -80,17 +79,14 @@
   .post-divider { width:40px; height:2px; background:var(--red); margin-bottom:32px; }
   .post-text  { font-size:15px; line-height:1.9; color:#444; margin-bottom:48px; white-space:pre-wrap; }
 
-  /* Pinterest share button */
   .post-share { margin-bottom:40px; }
   .btn-pinterest { display:inline-flex; align-items:center; gap:7px; background:#E60023; color:#fff; border:none; padding:9px 20px; font-size:11px; letter-spacing:.13em; text-transform:uppercase; cursor:pointer; font-family:'Karla',sans-serif; text-decoration:none; }
   .btn-pinterest:hover { background:#ad081b; }
 
-  /* Post content blocks — text and photos interleaved */
   .post-content-block { margin-bottom:32px; }
   .post-content-block img { width:100%; display:block; }
   .post-content-block p { font-size:15px; line-height:1.9; color:#444; white-space:pre-wrap; }
 
-  /* Clothing items */
   .items-heading { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:300; letter-spacing:.15em; margin-bottom:24px; }
   .items-list { display:flex; flex-direction:column; gap:1px; background:#eee; }
   .item-row-pub { background:#fff; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; gap:16px; }
@@ -104,7 +100,6 @@
   .btn-ext:hover { background:#1a1a1a; color:#fff; }
   .btn-amz:hover { background:#e68a00; }
 
-  /* Amazon post-level banner */
   .amazon-post-banner { border:1px solid #eee; padding:22px 24px; margin-top:48px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
   .amazon-banner-text { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; }
   .amazon-banner-sub  { font-size:11px; color:#aaa; letter-spacing:.08em; margin-top:4px; }
@@ -134,7 +129,6 @@
   .footer-social a:hover { color:var(--red); }
   footer p { font-size:11px; color:#bbb; letter-spacing:.1em; }
 
-  /* ── ADMIN ── */
   .admin-wrap  { max-width:800px; margin:0 auto; padding:100px 48px 80px; }
   .admin-hdr   { display:flex; justify-content:space-between; align-items:center; margin-bottom:48px; }
   .admin-title { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:300; letter-spacing:.15em; }
@@ -175,7 +169,6 @@
   .btn-conf-del { background:var(--red); color:#fff; border:none; padding:10px 28px; font-size:12px; letter-spacing:.12em; text-transform:uppercase; }
   .photo-prev { display:block; margin-top:12px; height:180px; object-fit:cover; border:1px solid #eee; }
 
-  /* Content builder blocks in admin */
   .cblock { background:#fafafa; border:1px solid #eee; margin-bottom:8px; position:relative; display:flex; align-items:flex-start; gap:10px; padding:12px 14px; }
   .cblock-drag { cursor:grab; color:#ccc; font-size:18px; padding:2px 4px; user-select:none; flex-shrink:0; margin-top:2px; }
   .cblock-drag:active { cursor:grabbing; }
@@ -366,19 +359,16 @@
     <button class="footer-link" style="color:#ddd" onclick="go('admin')">Admin</button>
   </div>
   <div class="footer-social">
-    <!-- Instagram -->
     <a href="https://instagram.com/suiterio" target="_blank" aria-label="Instagram">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
       </svg>
     </a>
-    <!-- Facebook -->
     <a href="https://www.facebook.com/profile.php?id=61588467712412" target="_blank" aria-label="Facebook">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
       </svg>
     </a>
-    <!-- Pinterest -->
     <a href="https://pin.it/4DeB5THOE" target="_blank" aria-label="Pinterest">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2C6.477 2 2 6.477 2 12c0 4.236 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.181-.78 1.172-4.97 1.172-4.97s-.299-.598-.299-1.482c0-1.388.806-2.428 1.808-2.428.853 0 1.267.641 1.267 1.408 0 .858-.546 2.141-.828 3.329-.236.995.499 1.806 1.476 1.806 1.772 0 3.137-1.868 3.137-4.561 0-2.386-1.716-4.052-4.165-4.052-2.837 0-4.5 2.128-4.5 4.327 0 .856.33 1.773.741 2.276a.3.3 0 0 1 .069.282c-.076.312-.244.995-.277 1.134-.044.183-.145.222-.334.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.967-.527-2.292-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
@@ -393,6 +383,30 @@
 const SB_URL = 'https://orxifjpjehtihwcmopdv.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9yeGlmanBqZWh0aWh3Y21vcGR2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1MzI1MzMsImV4cCI6MjA4NzEwODUzM30.vyolarZ87qrKK41wR89P3hDCutrIihF2P_WyXQLGAY4';
 const HDR    = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' };
+const BUCKET = 'posts'; // ← matches the bucket name you create in Supabase Storage
+
+// ── STORAGE UPLOAD ────────────────────────────────────────────────
+// Converts a file to a public URL by uploading it to Supabase Storage.
+// Returns the public URL string on success.
+async function uploadToStorage(file) {
+  var ext      = file.name.split('.').pop() || 'jpg';
+  var fileName = Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
+  var path     = 'images/' + fileName;
+
+  var uploadRes = await fetch(
+    SB_URL + '/storage/v1/object/' + BUCKET + '/' + path,
+    {
+      method:  'POST',
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': file.type },
+      body:    file
+    }
+  );
+  if (!uploadRes.ok) {
+    var err = await uploadRes.text();
+    throw new Error('Storage upload failed: ' + err);
+  }
+  return SB_URL + '/storage/v1/object/public/' + BUCKET + '/' + path;
+}
 
 async function dbAll() {
   const r = await fetch(SB_URL + '/rest/v1/posts?order=created_at.desc', { headers: HDR });
@@ -414,6 +428,7 @@ async function dbDel(id) {
 
 // ── STATE ─────────────────────────────────────────────────────────
 const PW = 'ilovebananas';
+// photoData now holds either a File object (new upload) or a URL string (existing)
 var posts = [], editId = null, delId = null, photoData = null, contentBlocks = [], authed = false;
 
 // ── TOAST ─────────────────────────────────────────────────────────
@@ -487,14 +502,11 @@ function openPost(id) {
   document.getElementById('post-date').textContent  = p.date;
   document.getElementById('post-title').textContent = p.title;
 
-  // Pinterest — pin the cover photo directly (no unique URL needed)
   var pinUrl = 'https://pinterest.com/pin/create/button/?media=' +
     encodeURIComponent(p.photo) +
     '&description=' + encodeURIComponent(p.title + ' — via RIO');
   document.getElementById('post-pin-btn').href = pinUrl;
 
-  // Content blocks: interleaved text + photos in author-defined order.
-  // Backwards compat: old posts with body/bodyPhotos get converted on the fly.
   var blocks = p.contentBlocks || [];
   if (!blocks.length) {
     if (p.body) blocks.push({ type: 'text', value: p.body });
@@ -508,7 +520,6 @@ function openPost(id) {
     '</div>';
   }).join('');
 
-  // Clothing items
   var items = (p.items || []).filter(function(i){ return i.name; });
   document.getElementById('post-items-wrap').innerHTML = items.length
     ? '<div class="items-heading">Pieces in this post</div><div class="items-list">' +
@@ -524,7 +535,6 @@ function openPost(id) {
         }).join('') + '</div>'
     : '';
 
-  // Amazon post-level banner
   document.getElementById('post-amazon-wrap').innerHTML = p.amazonLink
     ? '<div class="amazon-post-banner">' +
         '<div><div class="amazon-banner-text">Shop my Amazon picks</div>' +
@@ -638,8 +648,7 @@ function adminEdit(id) {
   var p = null;
   for (var i = 0; i < posts.length; i++) { if (posts[i].id === id) { p = posts[i]; break; } }
   if (!p) return;
-  editId = id; photoData = p.photo;
-  // Load contentBlocks, with backwards compat for old posts
+  editId = id; photoData = p.photo; // existing URL string — no re-upload needed
   contentBlocks = (p.contentBlocks || []).slice();
   if (!contentBlocks.length) {
     if (p.body) contentBlocks.push({ type: 'text', value: p.body });
@@ -695,14 +704,24 @@ function addItem() {
   document.getElementById('items-wrap').appendChild(d);
 }
 
+// ── PHOTO HANDLERS (now upload to Storage, not base64) ────────────
 function handlePhoto(e) {
   var f = e.target.files[0]; if (!f) return;
-  var r = new FileReader();
-  r.onload = function(ev) {
-    photoData = ev.target.result;
-    var pp = document.getElementById('photo-prev'); pp.src = photoData; pp.style.display = 'block';
-  };
-  r.readAsDataURL(f);
+  // Store the File object — actual upload happens at save time
+  photoData = f;
+  // Show a local preview immediately using a blob URL
+  var pp = document.getElementById('photo-prev');
+  pp.src = URL.createObjectURL(f);
+  pp.style.display = 'block';
+}
+
+function addPhotoBlock(e) {
+  var f = e.target.files[0]; if (!f) return;
+  // Store the File object in contentBlocks; upload happens at save time
+  var localUrl = URL.createObjectURL(f);
+  contentBlocks.push({ type: 'photo', value: localUrl, _file: f });
+  renderContentBuilder();
+  e.target.value = '';
 }
 
 // ── CONTENT BUILDER ───────────────────────────────────────────────
@@ -735,12 +754,10 @@ function renderContentBuilder() {
         '</div>' +
         '<button class="cblock-rm" onclick="removeBlock(' + idx + ')" title="Remove">×</button>';
     }
-    // Sync textarea changes to contentBlocks in real time
     if (block.type === 'text') {
       var ta = d.querySelector('textarea');
       ta.addEventListener('input', (function(i){ return function(){ contentBlocks[i].value = this.value; }; })(idx));
     }
-    // Drag-and-drop
     d.addEventListener('dragstart', function(e){ e.dataTransfer.setData('text/plain', idx); d.classList.add('dragging'); });
     d.addEventListener('dragend',   function(){ d.classList.remove('dragging'); document.querySelectorAll('.cblock').forEach(function(el){ el.classList.remove('drag-over'); }); });
     d.addEventListener('dragover',  function(e){ e.preventDefault(); d.classList.add('drag-over'); });
@@ -761,20 +778,8 @@ function renderContentBuilder() {
 function addTextBlock() {
   contentBlocks.push({ type: 'text', value: '' });
   renderContentBuilder();
-  // Focus the new textarea
   var textareas = document.querySelectorAll('#content-builder .cblock textarea');
   if (textareas.length) textareas[textareas.length - 1].focus();
-}
-
-function addPhotoBlock(e) {
-  var f = e.target.files[0]; if (!f) return;
-  var r = new FileReader();
-  r.onload = function(ev) {
-    contentBlocks.push({ type: 'photo', value: ev.target.result });
-    renderContentBuilder();
-  };
-  r.readAsDataURL(f);
-  e.target.value = ''; // reset so same file can be re-selected
 }
 
 function removeBlock(idx) {
@@ -801,37 +806,64 @@ function getItems() {
   });
 }
 
-function savePost() {
-  var title      = document.getElementById('f-title').value.trim();
-  var date       = document.getElementById('f-date').value.trim();
-  var amazonLink = document.getElementById('f-amazon').value.trim();
-  if (!title || !photoData) { toast('Please add a title and photo.'); return; }
-  // Sync any open textareas to contentBlocks before saving
+// ── SAVE POST (uploads images first, then saves URLs to DB) ───────
+async function savePost() {
+  // Sync textareas
   document.querySelectorAll('#content-builder .cblock[data-idx]').forEach(function(d) {
     var idx = parseInt(d.getAttribute('data-idx'));
     var ta  = d.querySelector('textarea');
     if (ta && contentBlocks[idx]) contentBlocks[idx].value = ta.value;
   });
-  var items = getItems().filter(function(i){ return i.name; });
+
+  var title      = document.getElementById('f-title').value.trim();
+  var date       = document.getElementById('f-date').value.trim();
+  var amazonLink = document.getElementById('f-amazon').value.trim();
+
+  if (!title || !photoData) { toast('Please add a title and photo.'); return; }
+
   var btn = document.getElementById('btn-pub');
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Saving...';
-  var payload = { title: title, date: date, photo: photoData, items: items, contentBlocks: contentBlocks, amazonLink: amazonLink };
-  var promise = editId ? dbEdit(editId, payload) : dbAdd(Object.assign({ id: Date.now().toString() }, payload));
-  promise.then(function() {
-    return dbAll();
-  }).then(function(data) {
+  btn.innerHTML = '<span class="spinner"></span>Uploading...';
+
+  try {
+    // 1. Upload cover photo if it's a new File (not an existing URL string)
+    var coverUrl;
+    if (typeof photoData === 'string') {
+      coverUrl = photoData; // already a URL from a previous save
+    } else {
+      coverUrl = await uploadToStorage(photoData);
+    }
+
+    // 2. Upload any new photo blocks (those with a _file property)
+    var uploadedBlocks = [];
+    for (var i = 0; i < contentBlocks.length; i++) {
+      var block = contentBlocks[i];
+      if (block.type === 'photo' && block._file) {
+        var url = await uploadToStorage(block._file);
+        uploadedBlocks.push({ type: 'photo', value: url });
+      } else {
+        uploadedBlocks.push({ type: block.type, value: block.value });
+      }
+    }
+
+    btn.innerHTML = '<span class="spinner"></span>Saving...';
+
+    var items   = getItems().filter(function(i){ return i.name; });
+    var payload = { title: title, date: date, photo: coverUrl, items: items, contentBlocks: uploadedBlocks, amazonLink: amazonLink };
+    var promise = editId ? dbEdit(editId, payload) : dbAdd(Object.assign({ id: Date.now().toString() }, payload));
+
+    await promise;
+    var data = await dbAll();
     posts = data;
     drawPlist(); adminList();
     toast(editId ? 'Post updated ✓' : 'Post published ✓');
-    btn.disabled = false;
-    btn.innerHTML = editId ? 'Save Changes' : 'Publish Post';
-  }).catch(function(err) {
+  } catch(err) {
     toast('Error saving — check connection.');
     console.error(err);
-    btn.disabled = false;
-    btn.innerHTML = editId ? 'Save Changes' : 'Publish Post';
-  });
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = editId ? 'Save Changes' : 'Publish Post';
 }
 
 function promptDel(id) {
